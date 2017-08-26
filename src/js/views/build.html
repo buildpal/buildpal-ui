@@ -1,0 +1,86 @@
+<div class="oj-hybrid-padding">
+  <div class="oj-flex-bar-start bread-crumbs">
+    <a href="#" data-bind="click: onBack">Builds</a>
+    <span class="breadcrumbs-point">&gt;</span>
+    <span data-bind="text: currentBuild.id"></span>
+  </div>
+
+  <div class="oj-panel oj-panel-shadow-md" data-bind="with: currentBuild">
+    <div class="oj-flex">
+      <div class="icon-status-holder oj-sm-align-self-center">
+        <span class="oj-navigationlist-item-icon buildpal-icon-font-32" data-bind="css: 'icon-' + status"></span>
+      </div>
+      <div class="oj-flex-item">
+        <div class="oj-flex row oj-margin">
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            <span class="secondary">Name: </span>  
+            <span data-bind="text: name"></span>                          
+          </div>
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            <span class="secondary">Started by: </span>  
+            <span data-bind="text: createdBy"></span>                          
+          </div>
+        </div>
+        <div class="oj-flex row oj-margin">
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            <span class="secondary">Repository: </span>
+            <span data-bind="text: repoName"></span>
+          </div>
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            <span class="secondary">Branch: </span>                
+            <span data-bind="text: repoBranch"></span>  
+          </div>
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            
+          </div>                  
+        </div>
+        <div class="oj-flex row oj-margin">
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            <span class="secondary">Start time: </span>
+            <span data-bind="text: startTime"></span>
+          </div>
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            <span class="secondary">End time: </span>                
+            <span data-bind="text: endTime"></span>  
+          </div>
+          <div class="oj-lg-4 oj-md-4 oj-sm-12">
+            <span class="secondary">Duration: </span>                
+            <span data-bind="text: duration"></span> 
+          </div>                  
+        </div>
+                      
+      </div>
+      
+    </div>          
+  </div>
+
+  <ul id="ulPhases" data-bind="ojComponent: { component: 'ojListView',
+                                              data: dsPhases,
+                                              item: { template: 'phase_template' },
+                                              selectionMode: 'none',
+                                              translations: {
+                                                msgNoData: 'No phases found.'
+                                              } 
+                                            }">
+  </ul>
+</div>
+
+<script type="text/html" id="phase_template">
+  <li class="oj-panel-shadow-sm buildpal-list-item">
+    <div class="oj-flex">
+      <div class="icon-status-holder oj-sm-align-self-center">
+        <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: 'icon-' + status"></span>
+      </div>
+      <div class="oj-flex-item">
+        <div class="oj-flex row">
+          <div class="oj-lg-12">
+            <span data-bind="text: name"></span>              
+          </div>
+        </div>        
+      </div>
+      <div class="actions oj-sm-align-self-center">
+        <a href="#" data-bind=""><i class="material-icons action">library_books</i></a>        
+      </div>  
+    </div>        
+  </li>
+</script>

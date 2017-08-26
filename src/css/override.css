@@ -1,0 +1,288 @@
+@font-face {
+    font-family:'AppFont';
+    src:url("fonts/MaterialIcons-Regular.woff") format("woff");
+    font-weight:normal;
+    font-style:normal
+}
+
+.oj-web-applayout-header {
+    background-color: #ffffff;
+}
+
+.oj-web-applayout-header-title {
+    font-size: 1.8rem;
+    cursor: pointer;
+}
+
+.oj-inputtext.oj-invalid .oj-inputtext-input,
+.oj-inputpassword.oj-invalid .oj-inputpassword-input,
+.oj-textarea.oj-invalid .oj-textarea-input {
+    border-width: 1px;
+    border-color: #d50000;
+}
+
+.oj-messaging-inline-container .oj-message.oj-message-error {
+    background-color: transparent;
+    border: 0px;
+    padding: 4px;
+}
+
+.oj-message.oj-message-error .oj-message-summary {
+    display: none;
+}
+
+.oj-message.oj-message-error .oj-message-detail {
+    padding: 0px;
+    font-size: 0.8rem;
+    color: #d50000;
+}
+
+.oj-message-status-icon.oj-message-error-icon {
+    display: none;
+}
+
+.oj-listview {
+    border-width: 0px;
+}
+
+.oj-listview-no-data-message {
+    background: #ffffff;
+    margin: 16px;
+    border-width: 0px;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.login-form {
+    min-width: 300px;
+    padding: 32px 16px;
+    margin-top: 32px;
+}
+
+.login-form .error {
+    width: 254px;
+    margin-bottom: 16px;
+    color: #d50000;
+    border-color: #d50000;
+    border-radius: 2px;
+}
+
+.login-form .buildpal-logo {
+    margin-bottom: 48px;
+}
+
+.login-button {
+    margin: 0 auto;
+    margin-top: 16px;
+}
+
+.buildpal-icon-font,
+.buildpal-icon-font-24,
+.buildpal-icon-font-32 {
+    font-family: AppFont;
+    font-size: 16px;
+    line-height: 1;
+    display: inline-block;
+    font-weight: normal;
+    speak: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+    text-align: center;
+    box-sizing: content-box;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+.buildpal-icon-font:before,
+.buildpal-icon-font-24:before,
+.buildpal-icon-font-32:before {
+    display: inline-block;
+}
+
+.buildpal-icon-font-24 {
+    font-size: 24px;
+}
+
+.buildpal-icon-font-32 {
+    font-size: 32px;
+}
+
+.buildpal-logo-icon {
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+}
+
+.buildpal-logo-icon:before {
+    content: url("images/logo.svg");
+    display: inline;
+}
+
+.buildpal-appheader-avatar {
+    width: 24px;
+    height: 24px
+}
+
+.buildpal-appheader-avatar:before {
+    content:url("images/avatar_24px.png");
+}
+
+@media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi), (min-resolution: 1.5dppx) {
+    .buildpal-appheader-avatar:before {
+        content:url("images/avatar_24px_2x.png");
+        -webkit-transform:translate(-25%, -25%) scale(0.5);
+        transform:translate(-25%, -25%) scale(0.5)
+    }
+}
+
+html:not([dir="rtl"]) .buildpal-logo-icon {
+    padding-right: 4px;
+}
+
+html[dir="rtl"] .buildpal-logo-icon {
+    padding-left: 4px;
+}
+
+.buildpal-dashboard-icon-24:before {
+    content: "\e871";
+}
+
+.buildpal-pipelines-icon-24:before {
+    content: "\e335";
+}
+
+.buildpal-repos-icon-24:before {
+    content: "\e1db";
+}
+
+.buildpal-users-icon-24:before {
+    content: "\e8d3";
+}
+
+.bread-crumbs {
+    padding: 8px;
+}
+
+.breadcrumbs-point {
+    display: inline-block;
+    text-align: center;
+    padding-left: 0.857rem;
+    padding-right: 0.857rem;
+    font-size: 14px;
+    color: #9e9e9e;
+}
+
+.name {
+    font-size: 1.1rem;
+    color: #4d4d4d;
+}
+
+.fineprint-ni {
+    font-size: 0.8rem;    
+}
+
+.fineprint {
+    font-size: 0.8rem;
+    font-style: italic;
+}
+
+.secondary {
+    font-size: 0.9rem;
+}
+
+.repo {    
+    margin-right: 4px;
+}
+
+.repo-text {
+    text-transform: lowercase;
+}
+
+.repo:before {    
+    content: "\e86f";
+    color: #795548;
+}
+
+.actions {
+    max-width: 100px;    
+}
+
+.action {
+    margin-right: 8px;
+    font-size: 18px; 
+    color: #4d4d4d
+}
+
+.list-actions {
+    margin-right: 16px;
+}
+
+.buildpal-list-item, .buildpal-list-item:hover {
+    background: #ffffff;
+    margin: 16px;
+    border-width: 0px;
+}
+
+.icon-status-holder {
+    max-width: 24px;
+    max-height: 24px;
+    margin-right: 8px;
+}
+
+.icon-PARKED:before {
+    content: "\e54f";
+    color: #795548;
+}
+
+.icon-PRE_FLIGHT:before,
+.icon-IN_FLIGHT:before {
+    content: "\e905";
+    color: #2196F3;
+}
+
+.icon-FAILED:before {
+    content: "\e14c";
+    color: #d50000;
+}
+
+.icon-DONE:before {
+    content: "\e876";
+    color: #43A047;
+}
+
+.editor {
+    margin: 16px 0px;    
+}
+
+#pipelineEditor {
+    height: 350px;
+}
+
+.oj-popup-content a,
+.oj-popup-content a:visited {
+    color: #2E7D32;
+}
+
+#growlContainer1 {
+    position: absolute;
+    top: 95px;
+    right: 24px;
+}
+
+#growlContainer2 {
+    position: absolute;
+    top: 150px;
+    right: 24px;
+}
+
+#growlSuccess {    
+    border: 2px solid #43A047;
+    border-radius: 4px;
+    background-color: #C8E6C9;
+}
+
+#growlFail {    
+    border: 2px solid #E53935;
+    border-radius: 4px;
+    background-color: #FFEBEE;
+}

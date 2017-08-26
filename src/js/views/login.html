@@ -1,0 +1,72 @@
+<div class="oj-hybrid-padding">
+  
+  <div class="oj-flex oj-sm-flex-items-initial oj-sm-justify-content-center" style="display: none;" data-bind="visible: !appState.user.isLoggedIn()">
+    <div class="oj-form-layout oj-panel oj-panel-shadow-md oj-margin login-form">
+      <div class="oj-form">
+        <div class="oj-flex buildpal-logo">
+          <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
+            <span role="img" class="oj-icon buildpal-logo-icon" title="Buildpal Logo" alt="Buildpal Logo"></span>
+            <h1 class="oj-web-applayout-header-title" title="Application Name">Buildpal</h1>
+          </div>
+        </div>
+        <div class="oj-flex oj-panel error" style="display: none;" data-bind="visible: loginFailed">
+          Invalid user ID and/or password.
+        </div>    
+        <div class="oj-flex">  
+          <div class="oj-flex-item">
+            <label for="txtUserID">User ID</label>
+            <input id="txtUserID" autocomplete="off" autofocus 
+                    data-bind="ojComponent: {component: 'ojInputText', 
+                                            value: userID,
+                                            required: true,
+                                            invalidComponentTracker: tracker,
+                                            translations: {
+                                              'required': {
+                                                messageSummary: 'Invalid user ID',  
+                                                messageDetail: 'User ID should be 3 or more characters long'
+                                              }
+                                            },
+                                            validators: [{
+                                              type: 'regExp', 
+                                              options: {
+                                                pattern: '[a-zA-Z0-9]{3,}', 
+                                                messageSummary: 'Invalid user ID',
+                                                messageDetail: 'User ID should be 3 or more characters long.'
+                                              }
+                                            }] }">
+          </div>
+        </div>
+        <div class="oj-flex">          
+          <div class="oj-flex-item">
+            <label for="txtPassword">Password</label>
+            <input id="txtPassword" autocomplete="off" 
+                    data-bind="ojComponent: {component: 'ojInputPassword', 
+                                            value: password,
+                                            required: true,
+                                            invalidComponentTracker: tracker,
+                                            translations: {
+                                              'required': {
+                                                messageSummary: 'Invalid password',  
+                                                messageDetail: 'Password should be 8 or more characters long'
+                                              }
+                                            },
+                                            validators: [{
+                                              type: 'regExp', 
+                                              options: {
+                                                pattern: '[a-zA-Z0-9]{8,}', 
+                                                messageSummary: 'Invalid password',
+                                                messageDetail: 'Password should be 8 or more characters long.'
+                                              }
+                                            }] }">
+          </div>
+        </div>
+        <div class="oj-flex">          
+            <button class="login-button"
+                    data-bind="click: onLoginClick, ojComponent: { component: 'ojButton',
+                                                                  label: 'Login' }">
+            </button>        
+        </div>
+      </div>    
+    </div>  
+  </div>  
+</div>

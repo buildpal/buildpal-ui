@@ -1,0 +1,15 @@
+var phase1 = new Phase()
+                 .name('Phase One')
+                 .description('A hello world phase')
+                 .env({
+                     'MESSAGE': 'Hello from buildpal!'
+                 })
+                 .container({
+                     'Img': 'alpine'
+                 })
+                 .exec(function(shell, log) {
+                     shell.run('echo $MESSAGE');
+                 });
+
+pipeline
+    .phase(phase1);

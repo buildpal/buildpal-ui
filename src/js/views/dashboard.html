@@ -1,0 +1,48 @@
+<div class="oj-hybrid-padding">  
+  <ul id="ulBuilds" data-bind="ojComponent: { component: 'ojListView',
+                                                data: dsBuilds,
+                                                item: { template: 'build_template' },
+                                                selectionMode: 'none',
+                                                translations: {
+                                                  msgNoData: 'There are no builds. Get started by creating a pipeline.'
+                                                } 
+                                              }">
+  </ul>
+</div>
+
+<script type="text/html" id="build_template">
+  <li class="oj-panel-shadow-sm buildpal-list-item" data-bind="attr: { id: $data['id'] }, css: status">
+      <div class="oj-flex">
+        <div class="icon-status-holder oj-sm-align-self-center">
+            <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: 'icon-' + status"></span>
+        </div>
+        <div class="oj-flex-item">
+          <div class="oj-flex row">
+            <div class="oj-lg-12">
+              <span class="name" data-bind="text: name"></span>
+              <span class="fineprint-ni" data-bind="text: id.substring(24)"></span>              
+            </div>
+          </div>
+          <div class="oj-flex row">
+            <div class="oj-lg-6 oj-md-7 oj-sm-12">
+              <span class="secondary" data-bind="text: ($data.utcEndDate ? $parent.moment(utcEndDate).fromNow() : $parent.moment(utcCreatedDate).fromNow())"></span>
+              <span class="fineprint" data-bind="text: ' by ' + createdBy"></span>
+            </div>
+            <div class="oj-lg-4 oj-md-4 oj-sm-12">              
+              <div class="oj-navigationlist-item-element oj-navigationlist-item">
+                <div class="oj-navigationlist-focused-element oj-navigationlist-item-content">
+                  <span class="oj-navigationlist-item-icon buildpal-icon-font repo"></span>
+                  <span class="oj-navigationlist-item-label secondary repo-text" data-bind="text: repository.type + ($data.repository.branch ? (', ' + repository.branch) : '')"></span>
+                </div>
+              </div>
+            </div>                  
+          </div>              
+        </div>
+        <div class="actions oj-sm-align-self-center">
+          <a href="#"><i class="material-icons action"
+                         data-bind="text: (status == 'DONE' || status == 'FAILED') ? 'replay' : 'stop' "></i></a>          
+          <a href="#" data-bind="click: $parent.onView"><i class="material-icons action">web</i></a>
+        </div>  
+      </div>        
+  </li>
+</script>
