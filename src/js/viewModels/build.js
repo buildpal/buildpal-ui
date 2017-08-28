@@ -1,24 +1,41 @@
 define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         'entities/build',
-        'ojs/ojlistview', 'ojs/ojarraytabledatasource'],
+        'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojarraytabledatasource'],
   function(oj, ko, $, appState, Build) {
     
     function BuildViewModel() {
       var self = this;
-      
+
       self.currentBuild = null;
       self.dsPhases = new oj.ArrayTableDataSource([], { idAttribute: 'id' });
+      self.logs = ko.observable();
       
       self.onBack = function() {
         oj.Router.rootInstance.go('dashboard');
       };
+
+      self.showLogs = function(phase) {
+        self.logs('Loading...');
+
+        var tail = (phase.status == 'DONE' || phase.status == 'FAILED') ? 'all' : '50';
+
+        Build.logs(self.currentBuild.id(), phase.containerID, tail, function(logs, errors) {
+          self.logs(errors ? errors : logs);
+        });
+
+        $('#dlgLogs').ojDialog('open');
+      }
+
+      self.onClose = function() {
+        $('#dlgLogs').ojDialog('close');
+      }
       
       self.load = function(id) {
         return new Promise(function (resolve, reject) {
             Build.get(id, function(item, errors) {
             if (item) {              
               self.currentBuild.fromObject(item);
-              self.dsPhases.reset(item.phases);
+              self.dsPhases.reset(item.phases ? item.phases : []);
               resolve(true);
 
             } else {

@@ -1,5 +1,5 @@
-define(['knockout', 'entities/entity', 'moment'],
-  function(ko, Entity, moment) {
+define(['knockout', 'appState', 'entities/entity', 'moment'],
+  function(ko, appState, Entity, moment) {
     var BUILDS_PATH = '/builds/';
     var TIME_FORMAT = 'MM/DD/YY hh:mm A';
               
@@ -68,6 +68,23 @@ define(['knockout', 'entities/entity', 'moment'],
 
     Build.get = function(id, andThen) {
       Entity.get(BUILDS_PATH + id, andThen);
+    };
+
+    Build.logs = function(id, containerID, tail, andThen) {
+      var url = appState.apiUrl + BUILDS_PATH + id +
+        '/logs?containerID=' + containerID + '&tail=' + tail;
+
+      $.ajax({
+        url: url,
+        type: 'GET',
+        headers: appState.user.oauth.getHeader(),
+
+        success: function(logs) {          
+          andThen.call(null, logs, null);
+        }
+      }).fail(function(jqXhr) {
+        Entity.error(jqXhr, andThen);
+      });
     };
     
     return Build;

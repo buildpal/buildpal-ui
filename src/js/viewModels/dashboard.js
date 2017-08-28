@@ -7,6 +7,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       var self = this;
 
       self.moment = moment;
+      self.showBuilds = ko.observable(false);
       self.dsBuilds = new oj.ArrayTableDataSource([], { idAttribute: 'id' });
 
       self.onView = function(build) {
@@ -18,6 +19,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
           oj.Router.rootInstance.go('login');
           return;
         }
+
+        self.showBuilds(true);
 
         Build.list(function(items, errors) {
           if (errors && errors.length > 0) {
