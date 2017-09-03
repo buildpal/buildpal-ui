@@ -57,6 +57,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
           } else {
             appState.growlFail('Unable to load repositories');
           }
+
+          // Sneak in focus logic here.
+          $('#txtName').focus();
         });
       };
 

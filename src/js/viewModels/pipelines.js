@@ -18,7 +18,7 @@ function(oj, ko, $, appState, Pipeline, moment) {
       Pipeline.start(pipeline.id, function(item, errors) {
         if (item) {
           appState.growlSuccess('Pipeline started: ', item.name, item.id, function(id) {
-            oj.Router.rootInstance.go('dashboard');
+            oj.Router.rootInstance.go('build/' + id);
           });          
         } else {
           appState.growlFail('Pipeline failed to start: ' + pipeline.name);
