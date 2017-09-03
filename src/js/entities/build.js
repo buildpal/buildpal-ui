@@ -27,20 +27,20 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
         var utcEndDate = build.utcEndDate ? moment(build.utcEndDate) : null;
 
         this.startTime = utcCreatedDate.format(TIME_FORMAT);
+        this.endTime = null;
+        this.duration = null;
 
         if (utcEndDate) {
           this.endTime = utcEndDate.format(TIME_FORMAT);
-          this.duration = utcEndDate.diff(utcCreatedDate, 'minutes');
+          var duration = utcEndDate.diff(utcCreatedDate, 'minutes');
 
-          if (this.duration == 0) {
-            this.duration = utcEndDate.diff(utcCreatedDate, 'seconds') + ' seconds';
+          if (duration == 0) {
+            duration = utcEndDate.diff(utcCreatedDate, 'seconds') + ' second(s)';
           } else {
-            this.duration = this.duration + ' minutes';
+            duration = duration + (duration < 2 ? ' minute' : ' minutes');
           }
 
-        } else {
-          this.endTime = null;
-          this.duration = null;
+          this.duration = duration;
         }
 
         this.repoName = build.repository.type;

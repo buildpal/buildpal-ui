@@ -2,13 +2,14 @@
   <div class="oj-flex-bar-start bread-crumbs">
     <a href="#" data-bind="click: onBack">Builds</a>
     <span class="breadcrumbs-point">&gt;</span>
-    <span data-bind="text: currentBuild.id"></span>
+    <span data-bind="text: currentBuild().id"></span>
   </div>
 
   <div class="oj-panel oj-panel-shadow-md" data-bind="with: currentBuild">
     <div class="oj-flex">
       <div class="icon-status-holder oj-sm-align-self-center">
-        <span class="oj-navigationlist-item-icon buildpal-icon-font-32" data-bind="css: 'icon-' + status"></span>
+        <span class="oj-navigationlist-item-icon buildpal-icon-font-32"
+              data-bind="css: 'icon-' + status"></span>        
       </div>
       <div class="oj-flex-item">
         <div class="oj-flex row oj-margin">
@@ -59,7 +60,7 @@
                                               item: { template: 'phase_template' },
                                               selectionMode: 'none',
                                               translations: {
-                                                msgNoData: 'No phases found.'
+                                                msgNoData: 'No phases have been started yet.'
                                               } 
                                             }">
   </ul>
@@ -69,17 +70,21 @@
   <li class="oj-panel-shadow-sm buildpal-list-item">
     <div class="oj-flex">
       <div class="icon-status-holder oj-sm-align-self-center">
-        <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: 'icon-' + status"></span>
+        <span class="oj-navigationlist-item-icon buildpal-icon-font-24"
+              data-bind="css: 'icon-' + status, visible: status != 'IN_FLIGHT'"></span>
+        <div style="height: 16px; width: 16px;" 
+             data-bind="ojComponent: { component: 'ojProgressbar', 
+                                       type: 'circle',
+                                       value: (status == 'IN_FLIGHT' ? -1 : 0) 
+                                     },
+                        visible: status == 'IN_FLIGHT'">
+        </div>
       </div>
-      <div class="oj-flex-item">
-        <div class="oj-flex row">
-          <div class="oj-lg-12">
-            <span data-bind="text: name"></span>              
-          </div>
-        </div>        
+      <div class="oj-flex-item oj-sm-align-self-center">
+        <span data-bind="text: name"></span>
       </div>
-      <div class="actions oj-sm-align-self-center">
-        <a href="#" data-bind="click: $parent.showLogs, enable: $data.containerID"><i class="material-icons action">library_books</i></a>        
+      <div class="actions oj-sm-align-self-center">        
+        <a href="#" data-bind="click: $parent.showLogs, enable: ($data.containerID && $data.containerID.length > 16)"><i class="material-icons action">library_books</i></a>        
       </div>  
     </div>        
   </li>
