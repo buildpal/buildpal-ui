@@ -84,7 +84,7 @@
         <span data-bind="text: name"></span>
       </div>
       <div class="actions oj-sm-align-self-center">        
-        <a href="#" data-bind="click: $parent.showLogs, enable: ($data.containerID && $data.containerID.length > 16)"><i class="material-icons action">library_books</i></a>        
+        <a href="#" data-bind="click: $parent.showLogs, css: { disabled: !$data.containerID }"><i class="material-icons action">library_books</i></a>        
       </div>  
     </div>        
   </li>

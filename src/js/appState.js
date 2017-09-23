@@ -60,7 +60,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
 
       var self = this;
 
-      self.baseUrl = '';
+      self.baseUrl = 'http://localhost:8080';
       self.apiUrl = self.baseUrl + '/api/v1';
 
       self.user = new User();

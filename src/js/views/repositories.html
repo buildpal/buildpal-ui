@@ -24,7 +24,7 @@
   <li class="oj-panel-shadow-sm buildpal-list-item">
       <div class="oj-flex">
         <div class="icon-status-holder oj-sm-align-self-center">
-            <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: 'icon-' + type"></span>
+            <div data-bind="css: type.toLowerCase()"></div>
         </div>
         <div class="oj-flex-item">
           <div class="oj-flex row">
@@ -36,10 +36,7 @@
             <div class="oj-lg-4 oj-md-4 oj-sm-12">
               <span class="secondary" data-bind="text: $parent.moment(utcLastModifiedDate).fromNow()"></span>
               <span class="fineprint" data-bind="text: ' by ' + createdBy"></span>                                          
-            </div>
-            <div class="oj-lg-4 oj-md-4 oj-sm-12">              
-              <span class="secondary" data-bind="text: uri"></span>
-            </div>                  
+            </div>            
           </div>              
         </div>
         <div class="actions oj-sm-align-self-center">                    

@@ -1,8 +1,8 @@
 @font-face {
-    font-family:'AppFont';
-    src:url("fonts/MaterialIcons-Regular.woff") format("woff");
-    font-weight:normal;
-    font-style:normal
+    font-family: 'AppFont';
+    src: url("fonts/MaterialIcons-Regular.woff") format("woff");
+    font-weight: normal;
+    font-style: normal
 }
 
 .oj-web-applayout-header {
@@ -43,6 +43,10 @@
 
 .oj-listview {
     border-width: 0px;
+}
+
+.oj-listview-item.oj-hover {
+    border-top: 0px;
 }
 
 .oj-listview-no-data-message {
@@ -124,14 +128,14 @@
 }
 
 .buildpal-appheader-avatar:before {
-    content:url("images/avatar_24px.png");
+    content: url("images/avatar_24px.png");
 }
 
 @media (-webkit-min-device-pixel-ratio: 1.5), (min-resolution: 144dpi), (min-resolution: 1.5dppx) {
     .buildpal-appheader-avatar:before {
-        content:url("images/avatar_24px_2x.png");
-        -webkit-transform:translate(-25%, -25%) scale(0.5);
-        transform:translate(-25%, -25%) scale(0.5)
+        content: url("images/avatar_24px_2x.png");
+        -webkit-transform: translate(-25%, -25%) scale(0.5);
+        transform: translate(-25%, -25%) scale(0.5)
     }
 }
 
@@ -223,6 +227,18 @@ html[dir="rtl"] .buildpal-logo-icon {
     border-width: 0px;
 }
 
+#ulChildRepos .oj-listview-no-data-message {
+    background: none;
+    margin: 0px 16px;
+    box-shadow: 0 0 0 0;
+    border: 1px solid #9e9e9e; 
+}
+
+#ulChildRepos .buildpal-list-item {
+    border: 1px solid #9e9e9e; 
+}
+
+
 .icon-status-holder {
     max-width: 24px;
     max-height: 24px;
@@ -285,4 +301,17 @@ html[dir="rtl"] .buildpal-logo-icon {
     border: 2px solid #E53935;
     border-radius: 4px;
     background-color: #FFEBEE;
+}
+
+.git {
+    width: 24px;
+    height: 24px;
+    background: url(images/git.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.disabled {
+    pointer-events: none;
+    cursor: default;
 }

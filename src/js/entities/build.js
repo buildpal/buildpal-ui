@@ -11,7 +11,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       this.endTime = null;
       this.duration = null;
       this.repoName = null;
-      this.repoBranch = null;
+      this.repoBranch = null;      
     }
 
     Build.prototype = Object.create(Entity.prototype);

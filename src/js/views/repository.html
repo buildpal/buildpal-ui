@@ -21,10 +21,14 @@
                                                           }">              
                 <option value="FS">File System</option>
                 <option value="GIT">Git</option>
-                <option value="P4">Perforce</option>
+                <option value="MULTI_GIT">Multi Git</option>
               </select>
             </div>
-          </div>
+          </div>                              
+        </div>
+      </div>
+      <div class="oj-flex-item">
+        <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">
           <div class="oj-flex">  
             <div class="oj-flex-item">
               <label for="txtName">Name</label>
@@ -43,69 +47,96 @@
                                                 } 
                                               }">
             </div>
-          </div>                    
-        </div>
-      </div>
-      <div class="oj-flex-item">
-        <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">    
-          <div class="oj-flex">  
-            <div class="oj-flex-item">
-              <label for="txtUri">Uri</label>
-            </div>
-            <div class="oj-flex-item">  
-              <input id="txtUri" autocomplete="off"
-                      data-bind="ojComponent: { component: 'ojInputText', 
-                                                value: currentRepo.uri,
-                                                required: true,
-                                                invalidComponentTracker: tracker,
-                                                translations: {
-                                                  'required': {
-                                                    messageSummary: 'Invalid uri',  
-                                                    messageDetail: 'Uri should be a URL or a file path.'
-                                                  }
-                                                }
-                                              }">
-            </div>
-          </div>
-          <div class="oj-flex" style="display: none;" data-bind="visible: showForGit()">  
-            <div class="oj-flex-item">
-              <label for="txtRemote">Remote</label>
-            </div>
-            <div class="oj-flex-item">  
-              <input id="txtRemote" autocomplete="off" 
-                      data-bind="ojComponent: { component: 'ojInputText', 
-                                                value: currentRepo.remote,
-                                                required: showForGit,
-                                                translations: {
-                                                  'required': {
-                                                    messageSummary: 'Invalid remote value',  
-                                                    messageDetail: 'Remote value cannot be empty.'
-                                                  }
-                                                }
-                                              }">
-            </div>
-          </div>                                    
-          <div class="oj-flex" style="display: none; margin-top: 6px;" data-bind="visible: showForGit()">  
-            <div class="oj-flex-item">
-              <label for="txtBranch">Branch</label>
-            </div>
-            <div class="oj-flex-item">  
-              <input id="txtBranch" autocomplete="off" 
-                      data-bind="ojComponent: { component: 'ojInputText', 
-                                                value: currentRepo.branch,
-                                                required: showForGit,
-                                                translations: {
-                                                  'required': {
-                                                    messageSummary: 'Invalid branch value',  
-                                                    messageDetail: 'Branch value cannot be empty.'
-                                                  }
-                                                }
-                                              }">
-            </div>
-          </div>                
+          </div>                          
         </div>
       </div>      
+  </div>    
+</div>
+
+<div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;" data-bind="visible: !showForMulitGit()">
+  <div class="oj-flex oj-form-layout oj-sm-only-flex-direction-column oj-lg-flex-items-1">
+    <div class="oj-flex-item">
+      <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">
+        <div class="oj-flex">  
+          <div class="oj-flex-item">
+            <label for="txtUri">Uri</label>
+          </div>
+          <div class="oj-flex-item">  
+            <input id="txtUri" autocomplete="off"
+                    data-bind="ojComponent: { component: 'ojInputText', 
+                                              value: currentRepo.uri,
+                                              required: showForGit(),
+                                              invalidComponentTracker: tracker,
+                                              translations: {
+                                                'required': {
+                                                  messageSummary: 'Invalid uri',  
+                                                  messageDetail: 'Uri should be a URL or a file path.'
+                                                }
+                                              }
+                                            }">
+          </div>
+        </div>
+        <div class="oj-flex">
+          <div class="oj-flex-item">
+            <label for="chkPipelineScan">Pipeline Scan</label>
+          </div>
+          <div class="oj-flex-item">
+            <div id="chkPipelineScan"
+                    data-bind="ojComponent: { component: 'ojCheckboxset',
+                                              value: currentRepo.pipelineScanOn
+                                            }">
+              <span class="oj-choice-item">
+                <input id="chkEnabled" type="checkbox" value="true">
+                <label for="chkEnabled">Enable</label>
+              </span>
+            </div>
+          </div>
+        </div>        
+      </div>
     </div>
+    <div class="oj-flex-item">
+      <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">
+        <div class="oj-flex" style="display: none;" data-bind="visible: showForGit()">  
+          <div class="oj-flex-item">
+            <label for="txtRemote">Remote</label>
+          </div>
+          <div class="oj-flex-item">  
+            <input id="txtRemote" autocomplete="off" 
+                    data-bind="ojComponent: { component: 'ojInputText', 
+                                              value: currentRepo.remote,
+                                              required: showForGit(),
+                                              invalidComponentTracker: tracker,
+                                              translations: {
+                                                'required': {
+                                                  messageSummary: 'Invalid remote value',  
+                                                  messageDetail: 'Remote value cannot be empty.'
+                                                }
+                                              }
+                                            }">
+          </div>
+        </div>                                    
+        <div class="oj-flex" style="display: none; margin-top: 6px;" data-bind="visible: showForGit()">  
+          <div class="oj-flex-item">
+            <label for="txtBranch">Branch</label>
+          </div>
+          <div class="oj-flex-item">  
+            <input id="txtBranch" autocomplete="off" 
+                    data-bind="ojComponent: { component: 'ojInputText', 
+                                              value: currentRepo.branch,
+                                              required: showForGit(),
+                                              invalidComponentTracker: tracker,
+                                              translations: {
+                                                'required': {
+                                                  messageSummary: 'Invalid branch value',  
+                                                  messageDetail: 'Branch value cannot be empty.'
+                                                }
+                                              }
+                                            }">
+          </div>
+        </div>
+      </div>
+    </div>      
+  </div>
 
   <div class="oj-dialog-footer">
     <button data-bind=" click: onSave, ojComponent: {component: 'ojButton', label: 'Save'}"> </button>
@@ -113,4 +144,162 @@
   </div>
 </div>
 
+<div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;" data-bind="visible: showForMulitGit()">
+  
+  <div class="oj-dialog-footer">
+    <button data-bind=" click: onAddChild, ojComponent: {component: 'ojButton', label: 'Add Git Repo'}"> </button>    
+  </div>
+
+  <ul id="ulChildRepos" data-bind="ojComponent: { component: 'ojListView',
+                                                  data: dsChildRepos,
+                                                  item: { template: 'child_repo_template' },
+                                                  selectionMode: 'none',
+                                                  translations: {
+                                                    msgNoData: 'Add one or more child git repositories.'
+                                                  } 
+                                                }">
+  </ul>
+
+  <div class="oj-dialog-footer" data-bind="visible: showChildSave() ">
+    <button data-bind=" click: onSave, ojComponent: {component: 'ojButton', label: 'Save'}"> </button>
+    <button data-bind="click: onCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
+  </div>
+</div>
+
+</div>
+
+<script type="text/html" id="child_repo_template">
+  <li class="buildpal-list-item">
+    <div class="oj-flex">
+      <div class="icon-status-holder oj-sm-align-self-center">
+          <div data-bind="css: type()[0].toLowerCase()"></div>
+      </div>
+      <div class="oj-flex-item">
+        <div class="oj-flex row">
+          <div class="oj-lg-12">
+            <span class="name" data-bind="text: name"></span>              
+          </div>
+        </div>        
+      </div>
+      <div class="actions oj-sm-align-self-center">                    
+        <a href="#" data-bind="click: $parent.onChildEdit"><i class="material-icons action">edit</i></a>
+        <a href="#" data-bind="click: $parent.onChildDelete"><i class="material-icons action">delete</i></a>
+      </div>  
+    </div>
+  </li>
+</script>
+
+<div id="dlgChildRepo" style="display:none" title="Child Repository"
+     data-bind="ojComponent: { component: 'ojDialog',
+                               initialVisibility: 'hide',
+                               rootAttributes: { style: 'width: 85vw; height: 350px '}
+                             }">
+  <div class="oj-dialog-body">
+      <div class="oj-flex oj-form-layout oj-sm-only-flex-direction-column oj-lg-flex-items-1">
+          <div class="oj-flex-item">
+            <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">
+              <div class="oj-flex">  
+                <div class="oj-flex-item">
+                  <label for="txtChildName">Name</label>
+                </div>
+                <div class="oj-flex-item">  
+                  <input id="txtChildName" autocomplete="off"
+                          data-bind="ojComponent: { component: 'ojInputText', 
+                                                    value: currentChildRepo().name,
+                                                    required: true,
+                                                    invalidComponentTracker: childTracker,
+                                                    translations: {
+                                                      'required': {
+                                                        messageSummary: 'Invalid name',  
+                                                        messageDetail: 'Name cannot be empty.'
+                                                      }
+                                                    }
+                                                  }">
+                </div>
+              </div>
+              <div class="oj-flex">  
+                <div class="oj-flex-item">
+                  <label for="txtChildUri">Uri</label>
+                </div>
+                <div class="oj-flex-item">  
+                  <input id="txtChildUri" autocomplete="off"
+                          data-bind="ojComponent: { component: 'ojInputText', 
+                                                    value: currentChildRepo().uri,
+                                                    required: true,
+                                                    invalidComponentTracker: childTracker,
+                                                    translations: {
+                                                      'required': {
+                                                        messageSummary: 'Invalid uri',  
+                                                        messageDetail: 'Uri should be a git repo URL.'
+                                                      }
+                                                    }
+                                                  }">
+                </div>
+              </div>
+              <div class="oj-flex">
+                <div class="oj-flex-item">
+                  <label for="chkChildHasPipeline">Has Pipeline?</label>
+                </div>
+                <div class="oj-flex-item">
+                  <div id="chkChildHasPipeline"
+                          data-bind="ojComponent: { component: 'ojCheckboxset',
+                                                    value: currentChildRepo().hasPipeline
+                                                  }">
+                    <span class="oj-choice-item">
+                      <input id="chkYes" type="checkbox" value="true">
+                      <label for="chkYes">Yes</label>
+                    </span>
+                  </div>
+                </div>
+              </div>        
+            </div>
+          </div>
+          <div class="oj-flex-item">
+            <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">
+              <div class="oj-flex">  
+                <div class="oj-flex-item">
+                  <label for="txtChildRemote">Remote</label>
+                </div>
+                <div class="oj-flex-item">  
+                  <input id="txtChildRemote" autocomplete="off" 
+                          data-bind="ojComponent: { component: 'ojInputText', 
+                                                    value: currentChildRepo().remote,
+                                                    required: true,
+                                                    invalidComponentTracker: childTracker,
+                                                    translations: {
+                                                      'required': {
+                                                        messageSummary: 'Invalid remote value',  
+                                                        messageDetail: 'Remote value cannot be empty.'
+                                                      }
+                                                    }
+                                                  }">
+                </div>
+              </div>                                    
+              <div class="oj-flex" style="margin-top: 6px;">  
+                <div class="oj-flex-item">
+                  <label for="txtChildBranch">Branch</label>
+                </div>
+                <div class="oj-flex-item">  
+                  <input id="txtChildBranch" autocomplete="off" 
+                          data-bind="ojComponent: { component: 'ojInputText', 
+                                                    value: currentChildRepo().branch,
+                                                    required: true,
+                                                    invalidComponentTracker: childTracker,
+                                                    translations: {
+                                                      'required': {
+                                                        messageSummary: 'Invalid branch value',  
+                                                        messageDetail: 'Branch value cannot be empty.'
+                                                      }
+                                                    }
+                                                  }">
+                </div>
+              </div>
+            </div>
+          </div>      
+        </div>      
+  </div>
+  <div class="oj-dialog-footer">
+    <button data-bind="click: onChildSave, ojComponent: {component: 'ojButton', label: 'Done'}"> </button>
+    <button data-bind="click: onChildClose, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
+  </div>
 </div>
