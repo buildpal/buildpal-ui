@@ -51,6 +51,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.loadRepos = function() {
         Repository.list(function(items, errors) {
           if (items) {
+            // FIX issue with select box trying to show children.
+            for (var i=0; i<items.length; i++) {
+              if (items[i].children) {
+                delete items[i].children;
+              }
+            }
+
             items.unshift(EMPTY);
             self.dsRepositories(items);
 

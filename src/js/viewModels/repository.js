@@ -15,6 +15,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
       self.showChildSave = ko.observable(false);
       self.currentRepo = new Repository();
       self.currentChildRepo = ko.observable(new Repository());
+      self.isChildNew = false;
 
       self.showForGit = ko.pureComputed(function() {
         var showGit = this.currentRepo.type().length && this.currentRepo.type()[0] === Repository.GIT;
@@ -41,10 +42,13 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
         childRepo.fromObject();
         childRepo.type([Repository.GIT]);
 
-        self.onChildEdit(childRepo);        
+        self.isChildNew = true;
+        self.currentChildRepo(childRepo);
+        $('#dlgChildRepo').ojDialog('open');        
       };
 
-      self.onChildEdit = function(childRepo) {
+      self.onEditChild = function(childRepo) {
+        self.isChildNew = false;
         self.currentChildRepo(childRepo);
         $('#dlgChildRepo').ojDialog('open');
       };
@@ -56,9 +60,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
           return false;
         }
 
-        self.currentRepo.children.push(self.currentChildRepo());
+        if (self.isChildNew) {
+          self.currentRepo.children.push(self.currentChildRepo());
+        }
+        
         self.dsChildRepos.reset(self.currentRepo.children);
-
         self.showChildSave(true);
 
         $('#dlgChildRepo').ojDialog('close');
@@ -68,7 +74,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
         $('#dlgChildRepo').ojDialog('close');
       };
 
-      self.onChildDelete = function(childRepo) {
+      self.onDeleteChild = function(childRepo) {
         var children = [];
         for (var c=0; c<self.currentRepo.children.length; c++) {
           if (childRepo.name() !== self.currentRepo.children[c].name()) {

@@ -303,7 +303,7 @@ html[dir="rtl"] .buildpal-logo-icon {
     background-color: #FFEBEE;
 }
 
-.git {
+.git, .multi_git {
     width: 24px;
     height: 24px;
     background: url(images/git.png);
