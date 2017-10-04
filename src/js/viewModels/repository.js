@@ -17,11 +17,24 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
       self.currentChildRepo = ko.observable(new Repository());
       self.isChildNew = false;
 
+      self.showUri = ko.pureComputed(function() {
+        return this.currentRepo.type().length &&
+          (this.currentRepo.type()[0] === Repository.GIT || 
+           this.currentRepo.type()[0] === Repository.P4 ||
+           this.currentRepo.type()[0] === Repository.FS);
+
+      }, self);
+
       self.showForGit = ko.pureComputed(function() {
         var showGit = this.currentRepo.type().length && this.currentRepo.type()[0] === Repository.GIT;
         // Sneak in focus logic here.
         $('#txtName').focus();
         return showGit;
+
+      }, self);
+
+      self.showForP4 = ko.pureComputed(function() {
+        return this.currentRepo.type().length && this.currentRepo.type()[0] === Repository.P4;
 
       }, self);
 

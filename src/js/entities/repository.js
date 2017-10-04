@@ -9,6 +9,9 @@ define(['knockout', 'entities/entity'],
       this.branch = ko.observable();
       this.pipelineScanOn = ko.observableArray();
       this.hasPipeline = ko.observableArray();
+      this.forceUpdate = ko.observableArray();
+      this.quiet = ko.observableArray();
+      this.viewMappings = ko.observable();
       this.children = [];
     }
 
@@ -26,6 +29,12 @@ define(['knockout', 'entities/entity'],
         this.pipelineScanOn(repo.pipelineScanOn ? ['true'] : []);
         this.hasPipeline(repo.hasPipeline ? ['true'] : []);
 
+        if (repo.type === Repository.P4) {
+          this.forceUpdate(repo.forceUpdate ? ['true'] : []);
+          this.quiet(repo.quiet ? ['true'] : []);
+          this.viewMappings(repo.viewMappings.join(/\n/));
+        }
+
         this.children = [];        
         if (repo.children && repo.children.length > 0) {
           for (var c=0; c<repo.children.length; c++) {
@@ -41,6 +50,9 @@ define(['knockout', 'entities/entity'],
         this.branch('master');
         this.pipelineScanOn(['true']);
         this.hasPipeline([]);
+        this.forceUpdate([]);
+        this.quiet([]);
+        this.viewMappings('');
         this.children = [];
       }
     };
@@ -52,6 +64,12 @@ define(['knockout', 'entities/entity'],
 
       obj.pipelineScanOn = this.pipelineScanOn().length == 1;
       obj.hasPipeline = this.hasPipeline().length == 1;
+
+      if (obj.type === Repository.P4) {
+        obj.forceUpdate = this.forceUpdate().length == 1;
+        obj.quiet = this.quiet().length == 1;
+        obj.viewMappings = this.viewMappings().split(/\n/);
+      }
 
       if (obj.type === Repository.GIT) {
         obj.branch = this.branch();
@@ -85,8 +103,11 @@ define(['knockout', 'entities/entity'],
       Entity.remove('/repositories/' + id, andThen);
     };
 
+    Repository.FS = 'FS';
     Repository.GIT = 'GIT';
     Repository.MULTI_GIT = 'MULTI_GIT';
+    Repository.MULTI_P4 = 'MULTI_P4';
+    Repository.P4 = 'P4';
 
     return Repository;
   }

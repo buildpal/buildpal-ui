@@ -22,9 +22,23 @@
                 <option value="FS">File System</option>
                 <option value="GIT">Git</option>
                 <option value="MULTI_GIT">Multi Git</option>
+                <option value="P4">Perforce</option>
+                <option value="MULTI_P4">Multi Perforce</option>
               </select>
             </div>
-          </div>                              
+          </div>
+          <div class="oj-flex">  
+              <div class="oj-flex-item">
+                <label for="ddlType">Credentials</label>
+              </div>
+              <div class="oj-flex-item">  
+                <select id="ddlType" data-bind="ojComponent: { component: 'ojSelect',
+                                                               value: currentRepo.secureID
+                                                             }">              
+                  <option value="">None</option>                  
+                </select>
+              </div>
+            </div>                              
         </div>
       </div>
       <div class="oj-flex-item">
@@ -65,7 +79,7 @@
             <input id="txtUri" autocomplete="off"
                     data-bind="ojComponent: { component: 'ojInputText', 
                                               value: currentRepo.uri,
-                                              required: showForGit(),
+                                              required: showUri(),
                                               invalidComponentTracker: tracker,
                                               translations: {
                                                 'required': {
@@ -91,7 +105,26 @@
               </span>
             </div>
           </div>
-        </div>        
+        </div>
+        <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
+          <div class="oj-flex-item">
+            <label for="txtDescription">View Mappings</label>
+          </div>
+          <div class="oj-flex-item">  
+            <textarea id="txtDescription" data-bind="ojComponent: { component: 'ojTextArea',
+                                                                    value: currentRepo.viewMappings,
+                                                                    required: showForP4(),
+                                                                    invalidComponentTracker: tracker,
+                                                                    translations: {
+                                                                      'required': {
+                                                                        messageSummary: 'Invalid view mappings',  
+                                                                        messageDetail: 'Specify one or more view mappings.'
+                                                                      }
+                                                                    }
+                                                                  }">
+            </textarea>                        
+          </div>
+        </div>              
       </div>
     </div>
     <div class="oj-flex-item">
@@ -132,6 +165,39 @@
                                                 }
                                               }
                                             }">
+          </div>
+        </div>
+
+        <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
+          <div class="oj-flex-item">
+            <label for="chkPipelineScan">Force Sync</label>
+          </div>
+          <div class="oj-flex-item">
+            <div id="chkPipelineScan"
+                    data-bind="ojComponent: { component: 'ojCheckboxset',
+                                              value: currentRepo.forceUpdate
+                                            }">
+              <span class="oj-choice-item">
+                <input id="chkEnabled" type="checkbox" value="true">
+                <label for="chkEnabled">Enable</label>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
+          <div class="oj-flex-item">
+            <label for="chkPipelineScan">Quiet Sync</label>
+          </div>
+          <div class="oj-flex-item">
+            <div id="chkPipelineScan"
+                    data-bind="ojComponent: { component: 'ojCheckboxset',
+                                              value: currentRepo.quiet
+                                            }">
+              <span class="oj-choice-item">
+                <input id="chkEnabled" type="checkbox" value="true">
+                <label for="chkEnabled">Enable</label>
+              </span>
+            </div>
           </div>
         </div>
       </div>

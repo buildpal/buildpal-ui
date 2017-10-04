@@ -63,7 +63,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
     };
 
     Build.list = function(andThen) {
-      Entity.list(BUILDS_PATH, andThen);
+      Entity.list('/builds?sort=utcLastModifiedDate|DESC|instant', andThen);
     };
 
     Build.get = function(id, andThen) {
