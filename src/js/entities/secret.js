@@ -1,0 +1,53 @@
+define(['knockout', 'appState', 'entities/entity'],
+function(ko, appState, Entity) {
+  var SECRETS_PATH = '/secrets/';
+            
+  function Secret() {
+    Entity.call(this, null);
+    
+    this.userName = ko.observable();
+    this.password = ko.observable();
+  }
+
+  Secret.prototype = Object.create(Entity.prototype);
+  Secret.prototype.constructor = Secret;
+
+  Secret.prototype.fromObject = function(secret) {
+    Entity.prototype.fromObject.call(this, secret);
+
+    this.userName('');
+    this.password('');
+  };
+    
+  Secret.prototype.toObject = function() {
+    var obj = Entity.prototype.toObject.call(this);
+    
+    if (this.userName()) {
+      obj.userName = this.userName();
+    }
+
+    if (this.password()) {
+      obj.password = this.password();  
+    }
+    
+    return obj;
+  };
+  
+  Secret.list = function(andThen) {
+    Entity.list(SECRETS_PATH, andThen);
+  };
+
+  Secret.get = function(id, andThen) {
+    Entity.get(SECRETS_PATH + id, andThen);
+  };
+
+  Secret.save = function(data, andThen) {
+    Entity.save(data, SECRETS_PATH, andThen);
+  };
+
+  Secret.remove = function(id, andThen) {
+    Entity.remove(SECRETS_PATH + id, andThen);
+  };
+
+  return Secret;
+});

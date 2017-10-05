@@ -13,10 +13,15 @@ define(['knockout', 'appState'],
     }
 
     Entity.prototype.fromObject = function(entity) {
+      this.description('');
+
       if (entity) {
         this.id(entity.id);
         this.name(entity.name);
-        this.description(entity.description);
+
+        if (entity.description) {
+          this.description(entity.description);
+        }
 
         if (this.defaultType) this.type([entity.type]);
 
@@ -28,8 +33,7 @@ define(['knockout', 'appState'],
 
       } else {
         this.id('');
-        this.name('');
-        this.description('');
+        this.name('');        
 
         if (this.defaultType) this.type([this.defaultType]);
         

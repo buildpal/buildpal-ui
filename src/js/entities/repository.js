@@ -4,6 +4,8 @@ define(['knockout', 'entities/entity'],
     function Repository() {
       Entity.call(this, Repository.GIT);
 
+      this.secretID = ko.observable([]);
+
       this.uri = ko.observable();
       this.remote = ko.observable();
       this.branch = ko.observable();
@@ -21,7 +23,13 @@ define(['knockout', 'entities/entity'],
     Repository.prototype.fromObject = function(repo) {
       Entity.prototype.fromObject.call(this, repo);
 
+      this.secretID([]);
+
       if (repo) {
+        if (repo.secretID) {
+          this.secretID([repo.secretID]);
+        }
+
         this.uri(repo.uri);
         this.remote(repo.remote);
         this.branch(repo.branch);
@@ -59,6 +67,10 @@ define(['knockout', 'entities/entity'],
 
     Repository.prototype.toObject = function() {
       var obj = Entity.prototype.toObject.call(this);
+
+      if (this.secretID().length > 0) {
+        obj.secretID = this.secretID()[0];
+      }
 
       obj.uri = this.uri();
 

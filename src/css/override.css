@@ -163,6 +163,10 @@ html[dir="rtl"] .buildpal-logo-icon {
     content: "\e8d3";
 }
 
+.buildpal-settings-icon-24:before {
+    content: "\e8b8";
+}
+
 .bread-crumbs {
     padding: 8px;
 }

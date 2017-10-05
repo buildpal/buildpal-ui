@@ -55,7 +55,20 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
             self.router.currentState().value = childRouter;
           }
         },
-        'user-management': { label: 'User Management' }
+        'settings': { label: 'Settings' },
+        'secret': {
+          label: 'Secret',
+          exit: function () {
+            var childRouter = self.router.currentState().value;
+            childRouter.dispose();
+          },
+          enter: function () {
+            var childRouter = self.router.createChildRouter('id');
+            childRouter.defaultStateId = '';
+            self.router.currentState().value = childRouter;
+          }
+        },
+        'identity-management': { label: 'IAM' }
       });
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
 
@@ -64,7 +77,7 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
         { name: 'Dashboard', id: 'dashboard', iconClass: 'buildpal-dashboard-icon-24' },
         { name: 'Pipelines', id: 'pipelines', iconClass: 'buildpal-pipelines-icon-24' },
         { name: 'Repositories', id: 'repositories', iconClass: 'buildpal-repos-icon-24' },
-        //{ name: 'User Management', id: 'user-management', iconClass: 'buildpal-users-icon-24' }
+        { name: 'Settings', id: 'settings', iconClass: 'buildpal-settings-icon-24' }
       ];
       self.navDataSource = new oj.ArrayTableDataSource(navData, { idAttribute: 'id' });
 

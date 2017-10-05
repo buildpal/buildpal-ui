@@ -1,7 +1,8 @@
-define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
+define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository', 'entities/secret',
         'ojs/ojinputtext', 'ojs/ojselectcombobox', 'ojs/ojcheckboxset', 'ojs/ojlistview', 'ojs/ojdialog',
         'ojs/ojarraytabledatasource', 'ojs/ojknockout-validation'],
-  function(oj, ko, $, appState, Repository) {
+  function(oj, ko, $, appState, Repository, Secret) {
+    var EMPTY = { id: '0', label: '-- None --' };
       
     function EditRepositoryViewModel() {
       var self = this;
@@ -10,6 +11,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
       self.childTracker = ko.observable();
       self.title = ko.observable();
 
+      self.dsSecrets = ko.observableArray();
       self.dsChildRepos = new oj.ArrayTableDataSource([], { idAttribute: 'name' });
       
       self.showChildSave = ko.observable(false);
@@ -153,6 +155,18 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
         });
       };
 
+      self.loadSecrets = function() {
+        Secret.list(function(items, errors) {
+          if (items) {            
+            items.unshift(EMPTY);
+            self.dsSecrets(items);
+
+          } else {
+            appState.growlFail('Unable to load secrets');
+          }
+        });
+      };
+
       self.handleActivated = function(info) {
         if (!appState.user.isLoggedIn()) {
           oj.Router.rootInstance.go('login');
@@ -186,7 +200,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository',
         if (!self.currentRepo.id()) {
           self.title('Add repository');
           self.currentRepo.fromObject();          
-        }                
+        }
+        
+        self.loadSecrets();
       };
     }
 

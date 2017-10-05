@@ -29,13 +29,14 @@
           </div>
           <div class="oj-flex">  
               <div class="oj-flex-item">
-                <label for="ddlType">Credentials</label>
+                <label for="ddlSecrets">Credentials</label>
               </div>
               <div class="oj-flex-item">  
-                <select id="ddlType" data-bind="ojComponent: { component: 'ojSelect',
-                                                               value: currentRepo.secureID
-                                                             }">              
-                  <option value="">None</option>                  
+                <select id="ddlSecrets" data-bind="ojComponent: { component: 'ojSelect',
+                                                                  value: currentRepo.secretID,
+                                                                  options: dsSecrets,
+                                                                  optionsKeys: { value: 'id', label: 'name' }
+                                                                }">                                    
                 </select>
               </div>
             </div>                              
