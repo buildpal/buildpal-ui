@@ -23,7 +23,7 @@
 <script type="text/html" id="repo_template">
   <li class="oj-panel-shadow-sm buildpal-list-item">
       <div class="oj-flex">
-        <div class="icon-status-holder oj-sm-align-self-center">
+        <div class="icon-status-holder oj-sm-align-self-center" data-bind="attr: { title: $data['type'] }">
             <div data-bind="css: type.toLowerCase()"></div>
         </div>
         <div class="oj-flex-item">

@@ -6,6 +6,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
     function Build() {
       Entity.call(this);
 
+      this.pipelineID = null;
       this.status = null;
       this.startTime = null;
       this.endTime = null;
@@ -22,6 +23,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       
       if (build) {
         this.status = build.status;
+        this.pipelineID = build.pipelineID;
 
         var utcCreatedDate = moment(build.utcCreatedDate);
         var utcEndDate = build.utcEndDate ? moment(build.utcEndDate) : null;
@@ -48,6 +50,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
 
       } else {
         this.status = null;
+        this.pipelineID = null;
         this.startTime = null;
         this.endTime = null;
         this.duration = null;
@@ -68,6 +71,27 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
 
     Build.get = function(id, andThen) {
       Entity.get(BUILDS_PATH + id, andThen);
+    };
+
+    Build.remove = function(id, andThen) {
+      Entity.remove(BUILDS_PATH + id, andThen);
+    };
+
+    Build.abort = function(id, andThen) {
+      var url = appState.apiUrl + BUILDS_PATH + id + '/abort';
+
+      $.ajax({
+        url: url,
+        type: 'POST',
+        headers: appState.user.oauth.getHeader(),
+        dataType: 'json',
+        contentType: 'application/json',
+        success: function(result) {          
+          andThen.call(null, result.item, null);
+        }
+      }).fail(function(jqXhr) {
+        Entity.error(jqXhr, andThen);
+      });
     };
 
     Build.logs = function(id, containerID, tail, andThen) {

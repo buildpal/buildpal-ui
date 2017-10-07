@@ -68,7 +68,7 @@ define(['knockout', 'entities/entity'],
     Repository.prototype.toObject = function() {
       var obj = Entity.prototype.toObject.call(this);
 
-      if (this.secretID().length > 0) {
+      if (this.secretID().length > 0 && this.secretID()[0] !== '0') {
         obj.secretID = this.secretID()[0];
       }
 
@@ -88,7 +88,7 @@ define(['knockout', 'entities/entity'],
         obj.remote = this.remote();
       }
 
-      if (obj.type === Repository.MULTI_GIT) {
+      if (obj.type === Repository.MULTI_GIT || obj.type === Repository.MULTI_P4) {
         obj.children = [];
         
         for (var c=0; c<this.children.length; c++) {
@@ -100,7 +100,7 @@ define(['knockout', 'entities/entity'],
     };
 
     Repository.list = function(andThen) {
-      Entity.list('/repositories', andThen);
+      Entity.list('/repositories?sort=name|ASC', andThen);
     };
 
     Repository.get = function(id, andThen) {

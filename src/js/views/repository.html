@@ -68,7 +68,7 @@
   </div>    
 </div>
 
-<div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;" data-bind="visible: !showForMulitGit()">
+<div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;" data-bind="visible: !showForMultiRepo()">
   <div class="oj-flex oj-form-layout oj-sm-only-flex-direction-column oj-lg-flex-items-1">
     <div class="oj-flex-item">
       <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">
@@ -91,28 +91,12 @@
                                             }">
           </div>
         </div>
-        <div class="oj-flex">
-          <div class="oj-flex-item">
-            <label for="chkPipelineScan">Pipeline Scan</label>
-          </div>
-          <div class="oj-flex-item">
-            <div id="chkPipelineScan"
-                    data-bind="ojComponent: { component: 'ojCheckboxset',
-                                              value: currentRepo.pipelineScanOn
-                                            }">
-              <span class="oj-choice-item">
-                <input id="chkEnabled" type="checkbox" value="true">
-                <label for="chkEnabled">Enable</label>
-              </span>
-            </div>
-          </div>
-        </div>
         <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
           <div class="oj-flex-item">
-            <label for="txtDescription">View Mappings</label>
+            <label for="txtViewMappings">View Mappings</label>
           </div>
           <div class="oj-flex-item">  
-            <textarea id="txtDescription" data-bind="ojComponent: { component: 'ojTextArea',
+            <textarea id="txtViewMappings" data-bind="ojComponent: { component: 'ojTextArea',
                                                                     value: currentRepo.viewMappings,
                                                                     required: showForP4(),
                                                                     invalidComponentTracker: tracker,
@@ -124,6 +108,22 @@
                                                                     }
                                                                   }">
             </textarea>                        
+          </div>
+        </div>
+        <div class="oj-flex">
+          <div class="oj-flex-item">
+            <label for="chkPipelineScan">Pipeline Scan</label>
+          </div>
+          <div class="oj-flex-item">
+            <div id="chkPipelineScan"
+                    data-bind="ojComponent: { component: 'ojCheckboxset',
+                                              value: currentRepo.pipelineScanOn
+                                            }">
+              <span class="oj-choice-item">
+                <input id="chkPSEnabled" type="checkbox" value="true">
+                <label for="chkPSEnabled">Enable</label>
+              </span>
+            </div>
           </div>
         </div>              
       </div>
@@ -171,32 +171,32 @@
 
         <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
           <div class="oj-flex-item">
-            <label for="chkPipelineScan">Force Sync</label>
+            <label for="chkForceUpdate">Force Update</label>
           </div>
           <div class="oj-flex-item">
-            <div id="chkPipelineScan"
+            <div id="chkForceUpdate"
                     data-bind="ojComponent: { component: 'ojCheckboxset',
                                               value: currentRepo.forceUpdate
                                             }">
               <span class="oj-choice-item">
-                <input id="chkEnabled" type="checkbox" value="true">
-                <label for="chkEnabled">Enable</label>
+                <input id="chkFUEnabled" type="checkbox" value="true">
+                <label for="chkFUEnabled">Enable</label>
               </span>
             </div>
           </div>
         </div>
         <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
           <div class="oj-flex-item">
-            <label for="chkPipelineScan">Quiet Sync</label>
+            <label for="chkQuietSync">Quiet Sync</label>
           </div>
           <div class="oj-flex-item">
-            <div id="chkPipelineScan"
+            <div id="chkQuietSync"
                     data-bind="ojComponent: { component: 'ojCheckboxset',
                                               value: currentRepo.quiet
                                             }">
               <span class="oj-choice-item">
-                <input id="chkEnabled" type="checkbox" value="true">
-                <label for="chkEnabled">Enable</label>
+                <input id="chkQSEnabled" type="checkbox" value="true">
+                <label for="chkQSEnabled">Enable</label>
               </span>
             </div>
           </div>
@@ -211,10 +211,10 @@
   </div>
 </div>
 
-<div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;" data-bind="visible: showForMulitGit()">
+<div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;" data-bind="visible: showForMultiRepo()">
   
   <div class="oj-dialog-footer">
-    <button data-bind=" click: onAddChild, ojComponent: {component: 'ojButton', label: 'Add Git Repo'}"> </button>    
+    <button data-bind=" click: onAddChild, ojComponent: {component: 'ojButton', label: 'Add Child Repo'}"> </button>    
   </div>
 
   <ul id="ulChildRepos" data-bind="ojComponent: { component: 'ojListView',
@@ -222,7 +222,7 @@
                                                   item: { template: 'child_repo_template' },
                                                   selectionMode: 'none',
                                                   translations: {
-                                                    msgNoData: 'Add one or more child git repositories.'
+                                                    msgNoData: 'Add one or more child repositories.'
                                                   } 
                                                 }">
   </ul>
@@ -259,7 +259,7 @@
 <div id="dlgChildRepo" style="display:none" title="Child Repository"
      data-bind="ojComponent: { component: 'ojDialog',
                                initialVisibility: 'hide',
-                               rootAttributes: { style: 'width: 85vw; height: 350px '}
+                               rootAttributes: { style: 'width: 85vw; height: 450px '}
                              }">
   <div class="oj-dialog-body">
       <div class="oj-flex oj-form-layout oj-sm-only-flex-direction-column oj-lg-flex-items-1">
@@ -297,33 +297,53 @@
                                                     translations: {
                                                       'required': {
                                                         messageSummary: 'Invalid uri',  
-                                                        messageDetail: 'Uri should be a git repo URL.'
+                                                        messageDetail: 'URL cannot be empty.'
                                                       }
                                                     }
                                                   }">
                 </div>
               </div>
-              <div class="oj-flex">
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiP4()">  
                 <div class="oj-flex-item">
-                  <label for="chkChildHasPipeline">Has Pipeline?</label>
+                  <label for="txtChildViewMappings">View Mappings</label>
+                </div>
+                <div class="oj-flex-item">  
+                  <textarea id="txtChildViewMappings" data-bind="ojComponent: { component: 'ojTextArea',
+                                                                          value: currentChildRepo().viewMappings,
+                                                                          required: showForMultiP4(),
+                                                                          invalidComponentTracker: childTracker,
+                                                                          translations: {
+                                                                            'required': {
+                                                                              messageSummary: 'Invalid view mappings',  
+                                                                              messageDetail: 'Specify one or more view mappings.'
+                                                                            }
+                                                                          }
+                                                                        }">
+                  </textarea>                        
+                </div>
+              </div>
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiGit()">
+                <div class="oj-flex-item">
+                  <label for="chkChildHasPipeline1">Has Pipeline?</label>
                 </div>
                 <div class="oj-flex-item">
-                  <div id="chkChildHasPipeline"
+                  <div id="chkChildHasPipeline1"
                           data-bind="ojComponent: { component: 'ojCheckboxset',
                                                     value: currentChildRepo().hasPipeline
                                                   }">
                     <span class="oj-choice-item">
-                      <input id="chkYes" type="checkbox" value="true">
-                      <label for="chkYes">Yes</label>
+                      <input id="chkCYes1" type="checkbox" value="true">
+                      <label for="chkCYes1">Yes</label>
                     </span>
                   </div>
                 </div>
-              </div>        
+              </div>
+                      
             </div>
           </div>
           <div class="oj-flex-item">
             <div class="oj-form oj-sm-odd-cols-12 oj-lg-odd-cols-4 oj-lg-labels-inline">
-              <div class="oj-flex">  
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiGit()">  
                 <div class="oj-flex-item">
                   <label for="txtChildRemote">Remote</label>
                 </div>
@@ -331,7 +351,7 @@
                   <input id="txtChildRemote" autocomplete="off" 
                           data-bind="ojComponent: { component: 'ojInputText', 
                                                     value: currentChildRepo().remote,
-                                                    required: true,
+                                                    required: showForMultiGit(),
                                                     invalidComponentTracker: childTracker,
                                                     translations: {
                                                       'required': {
@@ -342,7 +362,7 @@
                                                   }">
                 </div>
               </div>                                    
-              <div class="oj-flex" style="margin-top: 6px;">  
+              <div class="oj-flex" style="display: none; margin-top: 6px;" data-bind="visible: showForMultiGit()">  
                 <div class="oj-flex-item">
                   <label for="txtChildBranch">Branch</label>
                 </div>
@@ -350,7 +370,7 @@
                   <input id="txtChildBranch" autocomplete="off" 
                           data-bind="ojComponent: { component: 'ojInputText', 
                                                     value: currentChildRepo().branch,
-                                                    required: true,
+                                                    required: showForMultiGit(),
                                                     invalidComponentTracker: childTracker,
                                                     translations: {
                                                       'required': {
@@ -359,6 +379,54 @@
                                                       }
                                                     }
                                                   }">
+                </div>
+              </div>
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiP4()">  
+                <div class="oj-flex-item">
+                  <label for="chkChildForceUpdate">Force Update</label>
+                </div>
+                <div class="oj-flex-item">
+                  <div id="chkChildForceUpdate"
+                          data-bind="ojComponent: { component: 'ojCheckboxset',
+                                                    value: currentChildRepo().forceUpdate
+                                                  }">
+                    <span class="oj-choice-item">
+                      <input id="chkCFUEnabled" type="checkbox" value="true">
+                      <label for="chkCFUEnabled">Enable</label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiP4()">  
+                <div class="oj-flex-item">
+                  <label for="chkChildQuietSync">Quiet Sync</label>
+                </div>
+                <div class="oj-flex-item">
+                  <div id="chkChildQuietSync"
+                          data-bind="ojComponent: { component: 'ojCheckboxset',
+                                                    value: currentChildRepo().quiet
+                                                  }">
+                    <span class="oj-choice-item">
+                      <input id="chkCQSEnabled" type="checkbox" value="true">
+                      <label for="chkCQSEnabled">Enable</label>
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiP4()">
+                <div class="oj-flex-item">
+                  <label for="chkChildHasPipeline2">Has Pipeline?</label>
+                </div>
+                <div class="oj-flex-item">
+                  <div id="chkChildHasPipeline2"
+                          data-bind="ojComponent: { component: 'ojCheckboxset',
+                                                    value: currentChildRepo().hasPipeline
+                                                  }">
+                    <span class="oj-choice-item">
+                      <input id="chkCYes2" type="checkbox" value="true">
+                      <label for="chkCYes2">Yes</label>
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>

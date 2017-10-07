@@ -250,14 +250,19 @@ html[dir="rtl"] .buildpal-logo-icon {
 }
 
 .icon-PARKED:before {
-    content: "\e54f";
-    color: #795548;
+    content: "\e88b";
+    color: #2196F3;
 }
 
 .icon-PRE_FLIGHT:before,
 .icon-IN_FLIGHT:before {
     content: "\e905";
     color: #2196F3;
+}
+
+.icon-CANCELED:before {
+    content: "\e033";
+    color: #795548;
 }
 
 .icon-FAILED:before {
@@ -307,12 +312,25 @@ html[dir="rtl"] .buildpal-logo-icon {
     background-color: #FFEBEE;
 }
 
-.git, .multi_git {
+.fs,
+.git, .multi_git,
+.p4, .multi_p4 {
     width: 24px;
     height: 24px;
-    background: url(images/git.png);
     background-size: cover;
     background-repeat: no-repeat;
+}
+
+.fs {
+    background-image: url(images/fs.png);
+}
+
+.git, .multi_git {
+    background-image: url(images/git.png);    
+}
+
+.p4, .multi_p4 {
+    background-image: url(images/p4.png);
 }
 
 .disabled {

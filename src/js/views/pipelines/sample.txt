@@ -5,7 +5,7 @@ var phase1 = new Phase()
                  })
                  .conf(function(containerArgs) {
                      containerArgs
-                         .image('alpine');
+                         .image('alpine:3.6');
                  })
                  .main(function(container) {
                      container

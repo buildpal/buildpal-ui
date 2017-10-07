@@ -9,6 +9,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.currentBuild = ko.observable();
       self.dsPhases = new oj.ArrayTableDataSource([], { idAttribute: 'id' });
       self.logs = ko.observable();
+      self.viewAttached = false;
       
       self.onBack = function() {
         oj.Router.rootInstance.go('dashboard');
@@ -40,10 +41,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
               self.dsPhases.reset(item.phases ? item.phases : []);
               resolve(true);
 
-              // Refresh every 15 seconds if the build is in progress.
-              if (item.status == 'PARKED' || item.status == 'IN_FLIGHT' || item.status == 'PRE_FLIGHT') {
-                window.setTimeout(self.load, 10000, id);
-              }
+              // Refresh the build.
+              if (self.viewAttached) self.reload(item);
 
             } else {
               appState.growlFail('Unable to load build: ' + id);
@@ -52,6 +51,21 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
           });
         });        
       };
+
+      self.reload = function(item) {
+        if (item.status == 'PARKED' || item.status == 'PRE_FLIGHT' || item.status == 'IN_FLIGHT') {
+          var timeout = 2000;
+
+          if (item.status == 'PRE_FLIGHT') {
+            timeout = 4000;
+
+          } else if (item.status == 'IN_FLIGHT') {
+            timeout = 10000;
+          }
+
+          window.setTimeout(self.load, timeout, item.id);
+        }
+      };
                         
       self.handleActivated = function(info) {
         if (!appState.user.isLoggedIn()) {
@@ -59,9 +73,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
           return;
         }
 
-        var parentRouter = info.valueAccessor().params.ojRouter.parentRouter;
+        self.viewAttached = true;
 
+        var parentRouter = info.valueAccessor().params.ojRouter.parentRouter;
         self.router = parentRouter.currentState().value;
+
         self.router.configure(function (id) {
           var state;
 
@@ -82,8 +98,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         return oj.Router.sync();                         
       }; 
 
-      self.handleBindingsApplied = function(info) {
-        
+      self.handleDetached = function() {
+        self.viewAttached = false;
+      };
+
+      self.handleBindingsApplied = function(info) {        
         if (!self.currentBuild().id()) { 
           oj.Router.rootInstance.go('dashboard');         
         }

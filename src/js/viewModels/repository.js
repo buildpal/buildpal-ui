@@ -40,23 +40,42 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository', '
 
       }, self);
 
-      self.showForMulitGit = ko.pureComputed(function() {
-        var showMultiGit = this.currentRepo.type().length && this.currentRepo.type()[0] === Repository.MULTI_GIT;
+      self.showForMultiRepo = ko.pureComputed(function() {
+        var type = this.currentRepo.type().length > 0 ? this.currentRepo.type()[0] : Repository.FS;
+        var isMulti = type === Repository.MULTI_GIT || type === Repository.MULTI_P4;
 
-        if (showMultiGit) {
+        if (isMulti) {
           self.dsChildRepos.reset(self.currentRepo.children);
           self.showChildSave(self.currentRepo.children.length > 0);
         }
 
-        return showMultiGit;
+        return isMulti;
 
       }, self);
 
+      self.showForMultiP4 = ko.pureComputed(function() {
+        var type = this.currentRepo.type().length > 0 ? this.currentRepo.type()[0] : Repository.FS;
+        return type === Repository.MULTI_P4;
+
+      }, self);
+
+      self.showForMultiGit = ko.pureComputed(function() {
+        var type = this.currentRepo.type().length > 0 ? this.currentRepo.type()[0] : Repository.FS;
+        return type === Repository.MULTI_GIT;
+
+      }, self);
+    
       self.onAddChild = function() {
         var childRepo = new Repository();
         childRepo.fromObject();
-        childRepo.type([Repository.GIT]);
 
+        var type = this.currentRepo.type().length > 0 ? this.currentRepo.type()[0] : Repository.FS;
+        if (type === Repository.MULTI_GIT) {
+          childRepo.type([Repository.GIT]);
+        } else {
+          childRepo.type([Repository.P4]);
+        }
+        
         self.isChildNew = true;
         self.currentChildRepo(childRepo);
         $('#dlgChildRepo').ojDialog('open');        
@@ -103,9 +122,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository', '
       
       self.childValidate = function() {        
         return $('#txtChildName').ojInputText('validate') 
-                 & $('#txtChildUri').ojInputText('validate')
-                 & $('#txtChildRemote').ojInputText('validate')
-                 & $('#txtChildBranch').ojInputText('validate');        
+                 & $('#txtChildUri').ojInputText('validate');        
       };
 
       self.validate = function() {        

@@ -13,7 +13,7 @@
 <script type="text/html" id="build_template">
   <li class="oj-panel-shadow-sm buildpal-list-item" data-bind="attr: { id: $data['id'] }, css: status">
       <div class="oj-flex">
-        <div class="icon-status-holder oj-sm-align-self-center">
+        <div class="icon-status-holder oj-sm-align-self-center" data-bind="attr: { title: $data['status'] }">
             <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: 'icon-' + status"></span>
         </div>
         <div class="oj-flex-item">
@@ -39,10 +39,29 @@
           </div>              
         </div>
         <div class="actions oj-sm-align-self-center">
-          <a href="#"><i class="material-icons action"
-                         data-bind="text: (status == 'DONE' || status == 'FAILED') ? 'replay' : 'stop' "></i></a>          
+          <a href="#" data-bind="click: $parent.onReplayOrAbort">
+            <i class="material-icons action" data-bind="text: (status == 'DONE' || status == 'FAILED' || status == 'CANCELED') ? 'replay' : 'stop'"></i>
+          </a>
+          <a href="#" style="display: none;" data-bind="click: $parent.onDelete, visible: (status == 'DONE' || status == 'FAILED' || status == 'CANCELED')">
+            <i class="material-icons action">delete</i>
+          </a>                         
           <a href="#" data-bind="click: $parent.onView"><i class="material-icons action">web</i></a>
         </div>  
       </div>        
   </li>
 </script>
+
+<div id="dlgBuild_Delete" style="display:none" title="Delete Build"
+     data-bind="ojComponent: { component: 'ojDialog',
+                               initialVisibility: 'hide',
+                               rootAttributes: { style: 'width: 80vw; '}
+                             }">
+  <div class="oj-dialog-body">
+    <span>Are you sure you want to delete </span>  
+    <span style="font-weight: 700; font-style: italic;" data-bind="text: currentBuild.name() + '?'"></span>
+  </div>
+  <div class="oj-dialog-footer">
+   <button data-bind=" click: onDeleteConfirm, ojComponent: {component: 'ojButton', label: 'Delete'}"> </button>
+   <button data-bind="click: onDeleteCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
+  </div>
+</div>

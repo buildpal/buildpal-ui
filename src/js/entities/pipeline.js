@@ -33,7 +33,7 @@ function(ko, appState, Entity) {
   };
   
   Pipeline.list = function(andThen) {
-    Entity.list(PIPELINES_PATH, andThen);
+    Entity.list('/pipelines?sort=name|ASC', andThen);
   };
 
   Pipeline.get = function(id, andThen) {

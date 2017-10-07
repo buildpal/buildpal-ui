@@ -7,29 +7,29 @@
 
   <div class="oj-panel oj-panel-shadow-md" data-bind="with: currentBuild">
     <div class="oj-flex">
-      <div class="icon-status-holder oj-sm-align-self-center">
+      <div class="icon-status-holder oj-sm-align-self-center" data-bind="attr: { title: $data['status'] }">
         <span class="oj-navigationlist-item-icon buildpal-icon-font-32"
-              data-bind="css: 'icon-' + status"></span>        
+              data-bind="css: 'icon-' + $data.status"></span>        
       </div>
       <div class="oj-flex-item">
         <div class="oj-flex row oj-margin">
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">Name: </span>  
-            <span data-bind="text: name"></span>                          
+            <span data-bind="text: $data.name"></span>                          
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">Started by: </span>  
-            <span data-bind="text: createdBy"></span>                          
+            <span data-bind="text: $data.createdBy"></span>                          
           </div>
         </div>
         <div class="oj-flex row oj-margin">
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">Repository: </span>
-            <span data-bind="text: repoName"></span>
+            <span data-bind="text: $data.repoName"></span>
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">Branch: </span>                
-            <span data-bind="text: repoBranch"></span>  
+            <span data-bind="text: $data.repoBranch"></span>  
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             
@@ -38,15 +38,15 @@
         <div class="oj-flex row oj-margin">
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">Start time: </span>
-            <span data-bind="text: startTime"></span>
+            <span data-bind="text: $data.startTime"></span>
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">End time: </span>                
-            <span data-bind="text: endTime"></span>  
+            <span data-bind="text: $data.endTime"></span>  
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">Duration: </span>                
-            <span data-bind="text: duration"></span> 
+            <span data-bind="text: $data.duration"></span> 
           </div>                  
         </div>
                       
@@ -69,7 +69,7 @@
 <script type="text/html" id="phase_template">
   <li class="oj-panel-shadow-sm buildpal-list-item">
     <div class="oj-flex">
-      <div class="icon-status-holder oj-sm-align-self-center">
+      <div class="icon-status-holder oj-sm-align-self-center" data-bind="attr: { title: $data['status'] }">
         <span class="oj-navigationlist-item-icon buildpal-icon-font-24"
               data-bind="css: 'icon-' + status, visible: status != 'IN_FLIGHT'"></span>
         <div style="height: 16px; width: 16px;" 
