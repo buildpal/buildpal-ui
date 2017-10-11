@@ -149,7 +149,7 @@
                                             }">
           </div>
         </div>                                    
-        <div class="oj-flex" style="display: none; margin-top: 6px;" data-bind="visible: showForGit()">  
+        <div class="oj-flex" style="display: none;" data-bind="visible: showForGit()">  
           <div class="oj-flex-item">
             <label for="txtBranch">Branch</label>
           </div>
@@ -169,6 +169,17 @@
           </div>
         </div>
 
+        <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
+          <div class="oj-flex-item">
+            <label for="txtShelvedList">Shelved List</label>
+          </div>
+          <div class="oj-flex-item">  
+            <input id="txtShelvedList" autocomplete="off" 
+                    data-bind="ojComponent: { component: 'ojInputText', 
+                                              value: currentRepo.shelvedList
+                                            }">
+          </div>
+        </div>
         <div class="oj-flex" style="display: none;" data-bind="visible: showForP4()">  
           <div class="oj-flex-item">
             <label for="chkForceUpdate">Force Update</label>
@@ -362,7 +373,7 @@
                                                   }">
                 </div>
               </div>                                    
-              <div class="oj-flex" style="display: none; margin-top: 6px;" data-bind="visible: showForMultiGit()">  
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiGit()">  
                 <div class="oj-flex-item">
                   <label for="txtChildBranch">Branch</label>
                 </div>
@@ -378,6 +389,17 @@
                                                         messageDetail: 'Branch value cannot be empty.'
                                                       }
                                                     }
+                                                  }">
+                </div>
+              </div>
+              <div class="oj-flex" style="display: none;" data-bind="visible: showForMultiP4()">  
+                <div class="oj-flex-item">
+                  <label for="txtChildShelvedList">Shelved List</label>
+                </div>
+                <div class="oj-flex-item">  
+                  <input id="txtChildShelvedList" autocomplete="off" 
+                          data-bind="ojComponent: { component: 'ojInputText', 
+                                                    value: currentChildRepo().shelvedList
                                                   }">
                 </div>
               </div>

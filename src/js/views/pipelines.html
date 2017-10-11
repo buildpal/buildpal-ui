@@ -65,3 +65,32 @@
    <button data-bind="click: onDeleteCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
   </div>
 </div>
+
+<div id="dlgPipeline_Data" style="display:none" title="Enter Pipeline Data"
+     data-bind="ojComponent: { component: 'ojDialog',
+                               initialVisibility: 'hide',
+                               rootAttributes: { style: 'width: 80vw; '}
+                             }">
+  <div class="oj-dialog-body">
+    
+     <div class="oj-form-layout">
+      <div class="oj-form oj-sm-odd-cols-12 oj-md-odd-cols-4">          
+        <div class="oj-flex" data-bind="foreach: currentData">  
+          <div class="oj-flex-item">
+            <label data-bind="text: name, attr: { for: id }"></label>
+          </div>
+          <div class="oj-flex-item">  
+            <input data-bind="ojComponent: { component: 'ojInputText',
+                                              value: value
+                                            }, attr: { id: id }">
+          </div>    
+        </div>
+      </div>    
+    </div>
+
+  </div>
+  <div class="oj-dialog-footer">
+   <button data-bind=" click: onDataConfirm, ojComponent: {component: 'ojButton', label: 'Start'}"> </button>
+   <button data-bind="click: onDataCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
+  </div>
+</div>

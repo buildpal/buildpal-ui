@@ -118,6 +118,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository', '
         
         self.currentRepo.children = children;
         self.dsChildRepos.reset(self.currentRepo.children);
+        self.showChildSave(children.length > 0);
       };
       
       self.childValidate = function() {        

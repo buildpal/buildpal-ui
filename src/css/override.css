@@ -231,6 +231,7 @@ html[dir="rtl"] .buildpal-logo-icon {
     border-width: 0px;
 }
 
+#ulData .oj-listview-no-data-message,
 #ulChildRepos .oj-listview-no-data-message {
     background: none;
     margin: 0px 16px;
@@ -238,6 +239,7 @@ html[dir="rtl"] .buildpal-logo-icon {
     border: 1px solid #9e9e9e; 
 }
 
+#ulData .buildpal-list-item,
 #ulChildRepos .buildpal-list-item {
     border: 1px solid #9e9e9e; 
 }

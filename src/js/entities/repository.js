@@ -14,6 +14,7 @@ define(['knockout', 'entities/entity'],
       this.forceUpdate = ko.observableArray();
       this.quiet = ko.observableArray();
       this.viewMappings = ko.observable();
+      this.shelvedList = ko.observable();
       this.children = [];
     }
 
@@ -41,6 +42,12 @@ define(['knockout', 'entities/entity'],
           this.forceUpdate(repo.forceUpdate ? ['true'] : []);
           this.quiet(repo.quiet ? ['true'] : []);
           this.viewMappings(repo.viewMappings.join(/\n/));
+
+          if (repo.shelvedList) {
+            this.shelvedList(repo.shelvedList);
+          } else {
+            this.shelvedList('');
+          }
         }
 
         this.children = [];        
@@ -61,6 +68,7 @@ define(['knockout', 'entities/entity'],
         this.forceUpdate([]);
         this.quiet([]);
         this.viewMappings('');
+        this.shelvedList('${data.SHELVED_LIST}');
         this.children = [];
       }
     };
@@ -81,6 +89,10 @@ define(['knockout', 'entities/entity'],
         obj.forceUpdate = this.forceUpdate().length == 1;
         obj.quiet = this.quiet().length == 1;
         obj.viewMappings = this.viewMappings().split(/\n/);
+
+        if (this.shelvedList()) {
+          obj.shelvedList = this.shelvedList();
+        }
       }
 
       if (obj.type === Repository.GIT) {

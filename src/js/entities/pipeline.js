@@ -1,11 +1,12 @@
-define(['knockout', 'appState', 'entities/entity'],
-function(ko, appState, Entity) {
+define(['knockout', 'appState', 'entities/entity', 'entities/data-item'],
+function(ko, appState, Entity, DataItem) {
   var PIPELINES_PATH = '/pipelines/';
             
   function Pipeline() {
     Entity.call(this, null);
     
     this.repositoryID = ko.observable([]);
+    this.dataList = [];
   }
 
   Pipeline.prototype = Object.create(Entity.prototype);
@@ -14,11 +15,21 @@ function(ko, appState, Entity) {
   Pipeline.prototype.fromObject = function(pipeline) {
     Entity.prototype.fromObject.call(this, pipeline);
 
-    if (pipeline && pipeline.repositoryID) {
-      this.repositoryID([pipeline.repositoryID]);
+    this.repositoryID([]);
+    this.dataList = [];
+
+    if (pipeline) {
+      if (pipeline.repositoryID) {
+        this.repositoryID([pipeline.repositoryID]);
+      }
       
-    } else {      
-      this.repositoryID([]);
+      if (pipeline.dataList && pipeline.dataList.length > 0) {
+        for (var d=0; d<pipeline.dataList.length; d++) {
+          var dataItem = new DataItem();
+          dataItem.fromObject(pipeline.dataList[d]);
+          this.dataList.push(dataItem);
+        }
+      }
     }
   };
     
@@ -27,6 +38,14 @@ function(ko, appState, Entity) {
     
     if (this.repositoryID().length > 0 && this.repositoryID()[0] !== '0') {
       obj.repositoryID = this.repositoryID()[0];
+    }
+
+    if (this.dataList.length > 0) {
+      obj.dataList = [];
+
+      for (var d=0; d<this.dataList.length; d++) {
+        obj.dataList.push(this.dataList[d].toObject());
+      }
     }
     
     return obj;
@@ -58,12 +77,13 @@ function(ko, appState, Entity) {
     });
   };
 
-  Pipeline.start = function(id, andThen) {
+  Pipeline.start = function(id, data, andThen) {
     var url = appState.apiUrl + PIPELINES_PATH + id + '/start';
 
     $.ajax({
       url: url,
       type: 'POST',
+      data: JSON.stringify(data),
       dataType: 'json',
       contentType: 'application/json',
       headers: appState.user.oauth.getHeader(),
