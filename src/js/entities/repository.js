@@ -62,7 +62,7 @@ define(['knockout', 'entities/entity'],
       } else {
         this.uri('');
         this.remote('origin');
-        this.branch('master');
+        this.branch('${data.BRANCH}');
         this.pipelineScanOn(['true']);
         this.hasPipeline([]);
         this.forceUpdate([]);

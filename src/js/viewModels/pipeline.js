@@ -176,6 +176,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         });
 
         self.currentPipeline = new Pipeline();
+        self.dsData.reset([]);
 
         return oj.Router.sync();                         
       }; 

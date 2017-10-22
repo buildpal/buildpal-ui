@@ -5,6 +5,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
     var User = function() {
       var self = this;
       self.oauth = new oj.OAuth();
+      self.id = ko.observable();
                   
       self.save = function(userData) {
         self.oauth.setAccessTokenResponse(userData);
@@ -25,6 +26,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
       self.login = function(userData) {
         self.save(userData);        
         self.isLoggedIn(true);
+        self.id(userData.id);
 
         oj.Router.rootInstance.go('dashboard');
       };
@@ -32,6 +34,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
       self.logout = function() {
         self.remove();
         self.isLoggedIn(false);
+        self.id('');
 
         oj.Router.rootInstance.go('login');        
       };

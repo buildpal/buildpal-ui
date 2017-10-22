@@ -103,9 +103,7 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
       }
 
       // Add a close listener so we can move focus back to the toggle button when the drawer closes
-      $("#navDrawer").on("ojclose", function() { $('#drawerToggleButton').focus(); });
-      
-      self.userLogin = ko.observable("admin");    
+      $("#navDrawer").on("ojclose", function() { $('#drawerToggleButton').focus(); });   
      }
 
      return new ControllerViewModel();

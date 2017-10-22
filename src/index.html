@@ -58,7 +58,7 @@
               <!-- Responsive Toolbar -->
               <div data-bind="ojComponent: {component:'ojToolbar'}">
                 <button id="userMenu"
-                  data-bind="ojComponent: {component: 'ojButton', label: userLogin,
+                  data-bind="ojComponent: {component: 'ojButton', label: appState.user.id,
                   display: smScreen() ? 'icons' : 'all',
                   icons: smScreen() ? {start: 'oj-icon buildpal-appheader-avatar', end: null} : {end: 'oj-component-icon oj-button-menu-dropdown-icon'},
                   chroming: 'half', menu: '#menu1'}">
