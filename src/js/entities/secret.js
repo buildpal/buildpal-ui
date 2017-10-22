@@ -5,7 +5,7 @@ function(ko, appState, Entity) {
   function Secret() {
     Entity.call(this, null);
     
-    this.userName = ko.observable();
+    this.username = ko.observable();
     this.password = ko.observable();
   }
 
@@ -15,15 +15,15 @@ function(ko, appState, Entity) {
   Secret.prototype.fromObject = function(secret) {
     Entity.prototype.fromObject.call(this, secret);
 
-    this.userName('');
+    this.username('');
     this.password('');
   };
     
   Secret.prototype.toObject = function() {
     var obj = Entity.prototype.toObject.call(this);
     
-    if (this.userName()) {
-      obj.userName = this.userName();
+    if (this.username()) {
+      obj.username = this.username();
     }
 
     if (this.password()) {

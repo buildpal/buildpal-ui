@@ -22,7 +22,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         if (status == 'DONE' || status == 'FAILED' || status == 'CANCELED') {
           self.successMessage = 'Build restarted: ';
           self.errorMessage = 'Unable to restart the build: ';
-          Pipeline.start(self.currentBuild.pipelineID, self.andThen);
+          Pipeline.start(self.currentBuild.pipelineID, self.currentBuild.data, self.andThen);
 
         } else {
           self.successMessage = 'Build aborted: ';

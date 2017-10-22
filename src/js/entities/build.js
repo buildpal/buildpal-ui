@@ -6,6 +6,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
     function Build() {
       Entity.call(this);
 
+      this.data = null;
       this.pipelineID = null;
       this.status = null;
       this.startTime = null;
@@ -24,6 +25,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       if (build) {
         this.status = build.status;
         this.pipelineID = build.pipelineID;
+        this.data = build.data;
 
         var utcCreatedDate = moment(build.utcCreatedDate);
         var utcEndDate = build.utcEndDate ? moment(build.utcEndDate) : null;
@@ -51,6 +53,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       } else {
         this.status = null;
         this.pipelineID = null;
+        this.data = null;
         this.startTime = null;
         this.endTime = null;
         this.duration = null;
