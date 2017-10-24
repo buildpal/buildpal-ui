@@ -11,12 +11,12 @@
 </div>
 
 <script type="text/html" id="build_template">
-  <li class="oj-panel-shadow-sm buildpal-list-item" data-bind="attr: { id: $data['id'] }, css: status">
+  <li class="oj-panel-shadow-sm buildpal-list-item-pad0" data-bind="attr: { id: $data['id'] }, css: status">
       <div class="oj-flex">
-        <div class="icon-status-holder oj-sm-align-self-center" data-bind="attr: { title: $data['status'] }">
-            <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: 'icon-' + status"></span>
+        <div class="icon-holder" data-bind="attr: { title: $data['status'] }, css: 'icon-holder-' + status">
+            <span class="oj-sm-align-self-center buildpal-icon-font-24" data-bind="css: 'icon-' + status"></span>
         </div>
-        <div class="oj-flex-item">
+        <div class="oj-flex-item data-holder">
           <div class="oj-flex row">
             <div class="oj-lg-12">
               <span class="name" data-bind="text: name"></span>

@@ -45,7 +45,9 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
         var userData = localStorage.getItem(USER_DATA);
 
         if (userData) {
-          self.oauth.setAccessTokenResponse(JSON.parse(userData));
+          var data = JSON.parse(userData);
+          self.oauth.setAccessTokenResponse(data);
+          self.id(data.id);
           self.isLoggedIn(true);
         }
       }

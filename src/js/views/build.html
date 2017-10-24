@@ -5,13 +5,12 @@
     <span data-bind="text: currentBuild().id"></span>
   </div>
 
-  <div class="oj-panel oj-panel-shadow-md" data-bind="with: currentBuild">
+  <div class="oj-panel oj-panel-shadow-md build-panel" data-bind="with: currentBuild">
     <div class="oj-flex">
-      <div class="icon-status-holder oj-sm-align-self-center" data-bind="attr: { title: $data['status'] }">
-        <span class="oj-navigationlist-item-icon buildpal-icon-font-32"
-              data-bind="css: 'icon-' + $data.status"></span>        
+      <div class="icon-holder-big" data-bind="attr: { title: $data['status'] }, css: 'icon-holder-' + status">
+        <span class="oj-sm-align-self-center buildpal-icon-font-32" data-bind="css: 'icon-' + $data.status"></span>        
       </div>
-      <div class="oj-flex-item">
+      <div class="oj-flex-item data-holder">
         <div class="oj-flex row oj-margin">
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             <span class="secondary">Name: </span>  
@@ -69,10 +68,10 @@
 <script type="text/html" id="phase_template">
   <li class="oj-panel-shadow-sm buildpal-list-item">
     <div class="oj-flex">
-      <div class="icon-status-holder oj-sm-align-self-center" data-bind="attr: { title: $data['status'] }">
-        <span class="oj-navigationlist-item-icon buildpal-icon-font-24"
-              data-bind="css: 'icon-' + status, visible: status != 'IN_FLIGHT'"></span>
-        <div style="height: 16px; width: 16px;" 
+      <div class="icon-holder" data-bind="attr: { title: $data['status'] }">
+        <span class="oj-sm-align-self-center buildpal-icon-font-24"
+              data-bind="css: 'icon-color-' + status, visible: status != 'IN_FLIGHT'"></span>
+        <div class="oj-sm-align-self-center" style="height: 16px; width: 16px;" 
              data-bind="ojComponent: { component: 'ojProgressbar', 
                                        type: 'circle',
                                        value: (status == 'IN_FLIGHT' ? -1 : 0) 

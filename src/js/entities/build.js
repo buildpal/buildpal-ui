@@ -25,7 +25,11 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       if (build) {
         this.status = build.status;
         this.pipelineID = build.pipelineID;
-        this.data = build.data;
+
+        this.data = {};
+        for (var key in build.data) {
+          this.data[key] = build.data[key].value;
+        }
 
         var utcCreatedDate = moment(build.utcCreatedDate);
         var utcEndDate = build.utcEndDate ? moment(build.utcEndDate) : null;

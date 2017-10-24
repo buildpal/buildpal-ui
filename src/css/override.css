@@ -46,7 +46,11 @@
 }
 
 .oj-listview-item.oj-hover {
-    border-top: 0px;
+    border: 0px;
+}
+
+ul.oj-listview-element:not(.oj-listview-card-layout) .oj-listview-item.oj-hover + li.oj-listview-item {
+    border-top: 0px; 
 }
 
 .oj-listview-no-data-message {
@@ -215,6 +219,11 @@ html[dir="rtl"] .buildpal-logo-icon {
     max-width: 100px;    
 }
 
+.actions a:hover,
+.actions a:focus {
+    text-decoration: none;
+}
+
 .action {
     margin-right: 8px;
     font-size: 18px; 
@@ -225,10 +234,16 @@ html[dir="rtl"] .buildpal-logo-icon {
     margin-right: 16px;
 }
 
-.buildpal-list-item, .buildpal-list-item:hover {
+.buildpal-list-item, .buildpal-list-item:hover,
+.buildpal-list-item-pad0, .buildpal-list-item-pad0:hover {
     background: #ffffff;
     margin: 16px;
     border-width: 0px;
+}
+
+.buildpal-list-item-pad0,
+.buildpal-list-item-pad0:hover {
+    padding: 0px;
 }
 
 #ulData .oj-listview-no-data-message,
@@ -241,17 +256,63 @@ html[dir="rtl"] .buildpal-logo-icon {
 
 #ulData .buildpal-list-item,
 #ulChildRepos .buildpal-list-item {
-    border: 1px solid #9e9e9e; 
+    border-bottom: 1px solid #efefef; 
+    
 }
 
+.build-panel {
+    padding: 0px;
+    border: none;
+}
+
+.data-holder {
+    padding: 8px 8px 8px 16px;
+}
+
+.data-holder-pad8 {
+    padding: 8px;
+}
 
 .icon-status-holder {
-    max-width: 24px;
-    max-height: 24px;
     margin-right: 8px;
 }
 
+.icon-holder,
+.icon-holder-big {
+    width: 48px;
+    display: grid;
+}
+
+.icon-holder-big {
+    width: 72px;
+}
+
+.icon-holder-DONE {
+    background: #43A047;
+}
+
+.icon-DONE:before {
+    content: "\e876";
+    color: #FFFFFF;
+}
+
+.icon-color-DONE:before {
+    content: "\e876";
+    color: #43A047;
+}
+
+.icon-holder-PARKED,
+.icon-holder-PRE_FLIGHT,
+.icon-holder-IN_FLIGHT {
+    background: #2196F3;
+}
+
 .icon-PARKED:before {
+    content: "\e88b";
+    color: #FFFFFF;
+}
+
+.icon-color-PARKED:before {
     content: "\e88b";
     color: #2196F3;
 }
@@ -259,22 +320,41 @@ html[dir="rtl"] .buildpal-logo-icon {
 .icon-PRE_FLIGHT:before,
 .icon-IN_FLIGHT:before {
     content: "\e905";
+    color: #FFFFFF;
+}
+
+.icon-color-PRE_FLIGHT:before,
+.icon-color-IN_FLIGHT:before {
+    content: "\e905";
     color: #2196F3;
+}
+
+.icon-holder-CANCELED {
+    background: #795548;
 }
 
 .icon-CANCELED:before {
     content: "\e033";
+    color: #FFFFFF;
+}
+
+.icon-color-CANCELED:before {
+    content: "\e033";
     color: #795548;
+}
+
+.icon-holder-FAILED {
+    background: #d50000;
 }
 
 .icon-FAILED:before {
     content: "\e14c";
-    color: #d50000;
+    color: #FFFFFF;
 }
 
-.icon-DONE:before {
-    content: "\e876";
-    color: #43A047;
+.icon-color-FAILED:before {
+    content: "\e14c";
+    color: #d50000;
 }
 
 .editor {
