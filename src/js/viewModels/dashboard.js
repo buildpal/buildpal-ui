@@ -11,6 +11,16 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.dsBuilds = new oj.ArrayTableDataSource([], { idAttribute: 'id' });
       self.currentBuild = new Build();
 
+      self.getRepoDisplayName = function(repository) {
+        var displayName = repository.type;
+
+        if (repository.branch && repository.branch.indexOf('${data') === -1) {
+          displayName += ', ' + repository.branch;
+        }
+        
+        return displayName;
+      };
+
       self.onView = function(build) {
         oj.Router.rootInstance.go('build/' + build.id);
       };

@@ -10,6 +10,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.dsPhases = new oj.ArrayTableDataSource([], { idAttribute: 'id' });
       self.logs = ko.observable();
       self.viewAttached = false;
+
+      self.getBranchDisplayName = function(build) {
+        if (build.repoBranch && build.repoBranch.indexOf('${data') === -1) {
+          return build.repoBranch;
+        }
+        
+        return '';
+      };
       
       self.onBack = function() {
         oj.Router.rootInstance.go('dashboard');
