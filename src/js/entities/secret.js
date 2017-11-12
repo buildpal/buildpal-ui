@@ -33,12 +33,12 @@ function(ko, appState, Entity) {
     return obj;
   };
   
-  Secret.list = function(andThen) {
-    Entity.list(SECRETS_PATH, andThen);
+  Secret.list = function(showLoading, andThen) {
+    Entity.list(SECRETS_PATH, showLoading, andThen);
   };
 
-  Secret.get = function(id, andThen) {
-    Entity.get(SECRETS_PATH + id, andThen);
+  Secret.get = function(id, showLoading, andThen) {
+    Entity.get(SECRETS_PATH + id, showLoading, andThen);
   };
 
   Secret.save = function(data, andThen) {

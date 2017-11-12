@@ -24,10 +24,11 @@ function(oj, ko, $, appState, Secret, moment) {
     };
 
     self.onDeleteSecretConfirm = function() {
+      $('#dlgSecret_Delete').ojDialog('close');
+      
       Secret.remove(self.currentSecret.id(), function(item, errors) {
         if (item) {
           self.load();
-          $('#dlgSecret_Delete').ojDialog('close');
           appState.growlSuccess('Secret deleted: ' + self.currentSecret.name());
 
         } else {
@@ -41,7 +42,7 @@ function(oj, ko, $, appState, Secret, moment) {
     };
 
     self.load = function() {
-      Secret.list(function(items, errors) {
+      Secret.list(true, function(items, errors) {
         if (items) {
           self.dsSecrets.reset(items);
 
@@ -57,6 +58,7 @@ function(oj, ko, $, appState, Secret, moment) {
         return;
       }
       
+      self.dsSecrets.reset([]);
       self.load();
     };      
   }

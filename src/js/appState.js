@@ -65,7 +65,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
 
       var self = this;
 
-      self.baseUrl = '';
+      self.baseUrl = 'http://localhost:8080';
       self.apiUrl = self.baseUrl + '/api/v1';
 
       self.user = new User();
@@ -74,6 +74,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
         linkData: null,
         linkClick: null,
         linkText: ko.observable()
+      };
+
+      self.loading = function(show) {
+        if (show) {
+          $('#buildpalLoading').show();
+        } else {
+          $('#buildpalLoading').hide();
+        }
       };
 
       self.successMessage = ko.observable();

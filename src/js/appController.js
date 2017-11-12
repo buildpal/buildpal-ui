@@ -1,8 +1,8 @@
 define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 'ojs/ojarraytabledatasource',
   'ojs/ojoffcanvas'],
   function(oj, ko, appState) {
-    function ControllerViewModel() {
-      var self = this;
+     function ControllerViewModel() {
+       var self = this;
 
       // Media queries for repsonsive layouts
       var smQuery = oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
@@ -11,7 +11,7 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
       self.mdScreen = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(mdQuery);
 
       self.appState = appState;
-    
+
       // Router setup
       self.router = oj.Router.rootInstance;
       self.router.configure({
@@ -67,9 +67,9 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
             childRouter.defaultStateId = '';
             self.router.currentState().value = childRouter;
           }
-        },
-        'identity-management': { label: 'IAM' }
+        }
       });
+      oj.Router.defaults['rootInstanceName'] = 'v';
       oj.Router.defaults['urlAdapter'] = new oj.Router.urlParamAdapter();
 
       // Navigation setup
@@ -79,31 +79,30 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
         { name: 'Repositories', id: 'repositories', iconClass: 'buildpal-repos-icon-24' },
         { name: 'Settings', id: 'settings', iconClass: 'buildpal-settings-icon-24' }
       ];
-      self.navDataSource = new oj.ArrayTableDataSource(navData, { idAttribute: 'id' });
-
-      // Drawer
-      // Close offcanvas on medium and larger screens
-      self.mdScreen.subscribe(function() {
-        oj.OffcanvasUtils.close(self.drawerParams);
-      });
-
-      self.drawerParams = {
-        displayMode: 'push',
-        selector: '#navDrawer',
-        content: '#pageContent'
-      };
+      self.navDataSource = new oj.ArrayTableDataSource(navData, {idAttribute: 'id'});
 
       self.goHome = function() {
         self.router.go('/');
       };
 
+      // Drawer
+      // Close offcanvas on medium and larger screens
+      self.mdScreen.subscribe(function() {oj.OffcanvasUtils.close(self.drawerParams);});
+      self.drawerParams = {
+        displayMode: 'push',
+        selector: '#navDrawer',
+        content: '#pageContent'
+      };
       // Called by navigation drawer toggle button and after selection of nav drawer item
       self.toggleDrawer = function() {
         return oj.OffcanvasUtils.toggle(self.drawerParams);
       }
-
       // Add a close listener so we can move focus back to the toggle button when the drawer closes
-      $("#navDrawer").on("ojclose", function() { $('#drawerToggleButton').focus(); });   
+      $("#navDrawer").on("ojclose", function() { $('#drawerToggleButton').focus(); });
+
+      // User Info used in Global Navigation area
+      self.userLogin = ko.observable("john.hancock@oracle.com");
+
      }
 
      return new ControllerViewModel();

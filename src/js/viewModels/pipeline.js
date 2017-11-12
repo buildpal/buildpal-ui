@@ -111,7 +111,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       };
 
       self.loadRepos = function() {
-        Repository.list(function(items, errors) {
+        Repository.list(false, function(items, errors) {
           if (items) {
             // FIX issue with select box trying to show children.
             for (var i=0; i<items.length; i++) {
@@ -133,21 +133,24 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       };
 
       self.load = function(id) {
-        return new Promise(function (resolve, reject) {
-          Pipeline.get(id, function(item, errors) {
-            if (item) {
-              self.title('Edit pipeline');
-              self.currentPipeline.fromObject(item);
-              self.dsData.reset(self.currentPipeline.dataList);
-              self.showDataSave(self.currentPipeline.dataList.length > 0);
+        Pipeline.get(id, true, function(item, errors) {
+          if (item) {
+            self.title('Edit pipeline');
+            self.currentPipeline.fromObject(item);
+            self.dsData.reset(self.currentPipeline.dataList);
+            self.showDataSave(self.currentPipeline.dataList.length > 0);
 
-              resolve(true);
+            self.loadRepos();
 
-            } else {
-              appState.growlFail('Unable to load pipeline: ' + id);
-              resolve(false);
-            }          
-          });
+            Pipeline.downloadJS(self.currentPipeline.id(), function(item, errors) {
+              if (item) {
+                self.editor.getSession().setValue(item.js);
+              }
+            });
+
+          } else {
+            appState.growlFail('Unable to load pipeline: ' + id);
+          }          
         });        
       };
                         
@@ -167,7 +170,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
             state = new oj.RouterState(id, {
               value: id,
               canEnter: function () {
-                return self.load(id);
+                return true;
               }
             });
           }
@@ -185,24 +188,19 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         self.editor = ace.edit('pipelineEditor');        
         self.editor.session.setMode('ace/mode/javascript');
         self.editor.$blockScrolling = Infinity;
-        
-        if (!self.currentPipeline.id()) {
+
+        if (self.router.currentValue()) {
+          self.load(self.router.currentValue());
+
+        } else {
           self.title('Add pipeline');
           self.currentPipeline.fromObject();
+          self.loadRepos();
 
           require(['text!views/pipelines/sample.txt'], function(js) {
             self.editor.getSession().setValue(js);
           });
-
-        } else {
-          Pipeline.downloadJS(self.currentPipeline.id(), function(item, errors) {
-            if (item) {
-              self.editor.getSession().setValue(item.js);
-            }
-          }); 
-        }
-        
-        self.loadRepos();
+        }       
       };
     }
 

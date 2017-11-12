@@ -39,24 +39,20 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         $('#dlgLogs').ojDialog('close');
       }
       
-      self.load = function(id) {
-        return new Promise(function (resolve, reject) {
-            Build.get(id, function(item, errors) {
-            if (item) {
-              var build = new Build();
-              build.fromObject(item);
-              self.currentBuild(build);              
-              self.dsPhases.reset(item.phases ? item.phases : []);
-              resolve(true);
+      self.load = function(id, showLoading) {
+        Build.get(id, showLoading, function(item, errors) {
+          if (item) {
+            var build = new Build();
+            build.fromObject(item);
+            self.currentBuild(build);              
+            self.dsPhases.reset(item.phases ? item.phases : []);
+            
+            // Refresh the build.
+            if (self.viewAttached) self.reload(item);
 
-              // Refresh the build.
-              if (self.viewAttached) self.reload(item);
-
-            } else {
-              appState.growlFail('Unable to load build: ' + id);
-              resolve(false);
-            }          
-          });
+          } else {
+            appState.growlFail('Unable to load build: ' + id);
+          }          
         });        
       };
 
@@ -71,7 +67,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
             timeout = 10000;
           }
 
-          window.setTimeout(self.load, timeout, item.id);
+          window.setTimeout(self.load, timeout, item.id, false);
         }
       };
                         
@@ -93,7 +89,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
             state = new oj.RouterState(id, {
               value: id,
               canEnter: function () {
-                return self.load(id);
+                return true;
               }
             });
           }
@@ -110,9 +106,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         self.viewAttached = false;
       };
 
-      self.handleBindingsApplied = function(info) {        
-        if (!self.currentBuild().id()) { 
-          oj.Router.rootInstance.go('dashboard');         
+      self.handleBindingsApplied = function(info) {
+        self.dsPhases.reset([]);
+        
+        if (self.router.currentValue()) {
+          self.load(self.router.currentValue(), true);
+
+        } else {
+          oj.Router.rootInstance.go('dashboard');
         }
       };
     }

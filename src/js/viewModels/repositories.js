@@ -24,10 +24,11 @@ function(oj, ko, $, appState, Repository, moment) {
     };
 
     self.onDeleteConfirm = function() {
+      $('#dlgRepo_Delete').ojDialog('close');
+      
       Repository.remove(self.currentRepo.id(), function(item, errors) {
         if (item) {
           self.load();
-          $('#dlgRepo_Delete').ojDialog('close');
           appState.growlSuccess('Repository deleted: ' + self.currentRepo.name());
 
         } else {
@@ -41,7 +42,7 @@ function(oj, ko, $, appState, Repository, moment) {
     };
 
     self.load = function() {
-        Repository.list(function(items, errors) {
+        Repository.list(true, function(items, errors) {
         if (items) {
           self.dsRepos.reset(items);
 
@@ -57,6 +58,7 @@ function(oj, ko, $, appState, Repository, moment) {
         return;
       }
       
+      self.dsRepos.reset([]);
       self.load();
     };      
   }

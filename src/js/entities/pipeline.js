@@ -51,12 +51,12 @@ function(ko, appState, Entity, DataItem) {
     return obj;
   };
   
-  Pipeline.list = function(andThen) {
-    Entity.list('/pipelines?sort=name|ASC', andThen);
+  Pipeline.list = function(showLoading, andThen) {
+    Entity.list('/pipelines?sort=name|ASC', showLoading, andThen);
   };
 
-  Pipeline.get = function(id, andThen) {
-    Entity.get(PIPELINES_PATH + id, andThen);
+  Pipeline.get = function(id, showLoading, andThen) {
+    Entity.get(PIPELINES_PATH + id, showLoading, andThen);
   };
 
   Pipeline.downloadJS = function(id, andThen) {
@@ -79,6 +79,7 @@ function(ko, appState, Entity, DataItem) {
 
   Pipeline.start = function(id, data, andThen) {
     var url = appState.apiUrl + PIPELINES_PATH + id + '/start';
+    appState.loading(true);
 
     $.ajax({
       url: url,
@@ -88,10 +89,12 @@ function(ko, appState, Entity, DataItem) {
       contentType: 'application/json',
       headers: appState.user.oauth.getHeader(),
 
-      success: function(result) {          
+      success: function(result) {
+        appState.loading(false);          
         andThen.call(null, result.item, null);
       }
     }).fail(function(jqXhr) {
+      appState.loading(false);
       Entity.error(jqXhr, andThen);
     });
   };

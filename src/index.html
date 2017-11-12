@@ -5,39 +5,37 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="icon" type="image/x-icon" href="css/images/favicon.ico" />
-    <link rel="icon" type="image/png" href="css/images/favicon-32x32.png" sizes="32x32" />
-    <link rel="icon" type="image/png" href="css/images/favicon-16x16.png" sizes="16x16" />
+    <link rel="icon" href="css/images/favicon.ico" type="image/x-icon" />
 
     <!-- This is the main css file for the default Alta theme -->
     <!-- injector:theme -->
-    <link rel="stylesheet" href="css/libs/oj/v3.2.0/alta/oj-alta-min.css" type="text/css"/>
+    <link rel="stylesheet" href="css/libs/oj/v4.0.0/alta/oj-alta-min.css" type="text/css"/>
     <!-- endinjector -->
-        
+    
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-
+    
     <!-- This is where you would add any app specific styling -->
-    <link rel="stylesheet" href="css/override.css" type="text/css"/>
+    <link rel="stylesheet" href="css/app.css" type="text/css"/>
 
   </head>
   <body class="oj-web-applayout-body">
     <!-- Template for rendering navigation items shared between nav bar and nav list -->
     <script type="text/html" id="navTemplate">
-      <li>
-        <a href="#">
-          <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: $data['iconClass']"></span>
-          <!-- ko text: $data['name'] --> <!--/ko-->
-        </a>
-      </li>
+      <li><a href="#">
+        <span class="oj-navigationlist-item-icon buildpal-icon-font-24" data-bind="css: $data['iconClass']"></span>
+        <!-- ko text: $data['name'] --> <!--/ko-->
+      </a></li>
     </script>
 
     <div id="globalBody" class="oj-offcanvas-outer-wrapper oj-offcanvas-page">
       
-      <div id="navDrawer" class="oj-contrast-marker oj-web-applayout-offcanvas oj-offcanvas-start">
-        <div role="navigation" data-bind="click: toggleDrawer, ojComponent: {component: 'ojNavigationList',
-          navigationLevel: 'application', item: {template: 'navTemplate'}, data: navDataSource,
-          selection: router.stateId, edge: 'start'}">
-        </div>
+      <div id="navDrawer" role="navigation" class="oj-contrast-marker oj-web-applayout-offcanvas oj-offcanvas-start">
+        <oj-navigation-list data="[[navDataSource]]"
+                            edge="start"
+                            item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
+                            on-click="[[toggleDrawer]]"
+                            selection="{{router.stateId}}">
+        </oj-navigation-list>
       </div>
       <div id="pageContent" class="oj-web-applayout-page">
         
@@ -45,43 +43,42 @@
           <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
             <!-- Offcanvas toggle button -->
             <div class="oj-flex-bar-start oj-md-hide">
-              <button id="drawerToggleButton" class="oj-button-lg" data-bind="click: toggleDrawer,
-                ojComponent: {component:'ojButton', label: 'Application Navigation',
-                chroming: 'half', display: 'icons', icons: {start: 'oj-web-applayout-offcanvas-icon'}}">
-              </button>
+              <oj-button id="drawerToggleButton" class="oj-button-lg" on-click="[[toggleDrawer]]" chroming="half" display="icons">
+                <span slot="startIcon" class="oj-web-applayout-offcanvas-icon"></span>
+                <span>Application Navigation</span>
+              </oj-button>
             </div>
             <div data-bind="click: goHome, css: smScreen() ? 'oj-flex-bar-center-absolute' : 'oj-flex-bar-middle oj-sm-align-items-baseline'">
               <span role="img" class="oj-sm-only-hide oj-icon buildpal-logo-icon" title="Buildpal Logo" alt="Buildpal Logo"></span>
-              <h1 class="oj-web-applayout-header-title" title="Application Name">Buildpal</h1>
+              <h1 class="oj-web-applayout-header-title" title="Buildpal">Buildpal</h1>
             </div>
             <div class="oj-flex-bar-end">
               <!-- Responsive Toolbar -->
-              <div data-bind="ojComponent: {component:'ojToolbar'}">
-                <button id="userMenu"
-                  data-bind="ojComponent: {component: 'ojButton', label: appState.user.id,
-                  display: smScreen() ? 'icons' : 'all',
-                  icons: smScreen() ? {start: 'oj-icon buildpal-appheader-avatar', end: null} : {end: 'oj-component-icon oj-button-menu-dropdown-icon'},
-                  chroming: 'half', menu: '#menu1'}">
-                </button>
-                <ul id='menu1' data-bind="ojComponent: {component: 'ojMenu'}" style="display:none">
-                  <li id="out"><a href="#" data-bind="click: appState.user.logout">Sign Out</a></li>
-                </ul>
-              </div>
+              <oj-toolbar>
+                <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="half">
+                  <span data-bind="text: appState.user.id"></span>
+                  <span slot="endIcon" data-bind="css: smScreen() ? 'oj-icon buildpal-appheader-avatar' : 'oj-component-icon oj-button-menu-dropdown-icon'"></span>
+                  <oj-menu id="menu1" slot="menu" style="display:none">                    
+                    <oj-option id="help" value="help">Help</oj-option>
+                    <oj-option id="profile" value="about">Profile</oj-option>
+                    <oj-option id="signout" value="out" data-bind="click: appState.user.logout">Sign Out</oj-option>
+                  </oj-menu>
+                </oj-menu-button>
+              </oj-toolbar>
             </div>
           </div>
-          <div style="display: none;" role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar"
-               data-bind="visible: router.stateId() != 'build'">
-            <div data-bind="ojComponent: {component: 'ojNavigationList',
-              navigationLevel: 'application',
-              item: {template: 'navTemplate'}, data: navDataSource,
-              selection: router.stateId, edge: 'top'}"
-              class="oj-web-applayout-navbar oj-sm-only-hide oj-md-condense oj-md-justify-content-flex-end">
-            </div>
+          <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar">
+            <oj-navigation-list class="oj-sm-only-hide oj-md-condense oj-md-justify-content-flex-end"
+                                data="[[navDataSource]]"
+                                edge="top"
+                                item.renderer="[[oj.KnockoutTemplateUtils.getRenderer('navTemplate', true)]]"
+                                selection="{{router.stateId}}">
+            </oj-navigation-list>
           </div>
         </header>
         <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content" data-bind="ojModule: router.moduleConfig">
-        </div>        
-        <footer class="oj-web-applayout-footer" role="contentinfo">          
+        </div>
+        <footer class="oj-web-applayout-footer" role="contentinfo">
           <div class="oj-web-applayout-footer-item oj-web-applayout-max-width oj-text-secondary-color oj-text-sm">
             Copyright © 2017 Buildpal.
           </div>
@@ -89,24 +86,24 @@
       </div>
 
       <div id="growlContainer1">
-        <div id="growlSuccess" data-bind="ojComponent: { component: 'ojPopup' }">
-          <div>
-            <span data-bind="text: appState.successMessage"></span>
-            <a href="#" data-bind="text: appState.growl.linkText, click: appState.onLinkClick"></a>
-          </div>
-        </div>        
+        <oj-popup style="display:none" id="growlSuccess">
+          <span data-bind="text: appState.successMessage"></span>
+          <a href="#" data-bind="text: appState.growl.linkText, click: appState.onLinkClick"></a>
+        </oj-popup>
       </div>
 
       <div id="growlContainer2">
-        <div id="growlFail" data-bind="ojComponent: { component: 'ojPopup' }">
-          <div>
-            <span data-bind="text: appState.failureMessage"></span>
-          </div>
-        </div>
+        <oj-popup style="display:none" id="growlFail">
+          <span data-bind="text: appState.failureMessage"></span>
+        </oj-popup>
       </div>
+
     </div>
-        
-    <script type="text/javascript" src="js/libs/require/require.js"></script>        
+
+    <div id="buildpalLoading" style="display: none;">      
+    </div>
+
+    <script type="text/javascript" src="js/libs/require/require.js"></script>
     <script type="text/javascript" src="js/main.js"></script>
 
   </body>

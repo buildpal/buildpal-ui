@@ -57,10 +57,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       };
 
       self.onDeleteConfirm = function() {
+        $('#dlgBuild_Delete').ojDialog('close');
+        
         Build.remove(self.currentBuild.id(), function(item, errors) {
           if (item) {
             self.load();
-            $('#dlgBuild_Delete').ojDialog('close');
             appState.growlSuccess('Build deleted: ' + self.currentBuild.name());
   
           } else {
@@ -74,7 +75,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       };
 
       self.load = function() {
-        Build.list(function(items, errors) {
+        Build.list(true, function(items, errors) {
           if (errors && errors.length > 0) {
             appState.growlFail('Unable to load builds.');                            
           } else {
@@ -90,6 +91,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         }
 
         self.showBuilds(true);
+        self.dsBuilds.reset([]);
         self.load();        
       };            
     }

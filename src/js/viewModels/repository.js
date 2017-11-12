@@ -156,25 +156,21 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository', '
       };
       
       self.load = function(id) {
-        return new Promise(function (resolve, reject) {
-          Repository.get(id, function(item, errors) {
+        Repository.get(id, true, function(item, errors) {
+          if (item) {                            
+            self.title('Edit repository');
+            self.currentRepo.fromObject(item);
 
-            if (item) {                            
-              self.title('Edit repository');
-              self.currentRepo.fromObject(item);
+            self.loadSecrets();
 
-              resolve(true);
-
-            } else {
-              appState.growlFail('Unable to load repository: ' + id);
-              resolve(false);
-            }          
-          });
+          } else {
+            appState.growlFail('Unable to load repository: ' + id);
+          }          
         });
       };
 
       self.loadSecrets = function() {
-        Secret.list(function(items, errors) {
+        Secret.list(false, function(items, errors) {
           if (items) {            
             items.unshift(EMPTY);
             self.dsSecrets(items);
@@ -201,7 +197,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository', '
             state = new oj.RouterState(id, {
               value: id,
               canEnter: function () {
-                return self.load(id);
+                return true;
               }
             });
           }
@@ -215,12 +211,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState', 'entities/repository', '
       };
       
       self.handleBindingsApplied = function(info) {
-        if (!self.currentRepo.id()) {
+        if (self.router.currentValue()) {
+          self.load(self.router.currentValue());
+
+        } else {
           self.title('Add repository');
-          self.currentRepo.fromObject();          
+          self.currentRepo.fromObject();
+          self.loadSecrets();
         }
-        
-        self.loadSecrets();
       };
     }
 

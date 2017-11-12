@@ -419,3 +419,17 @@ html[dir="rtl"] .buildpal-logo-icon {
     pointer-events: none;
     cursor: default;
 }
+
+#buildpalLoading {
+    position : fixed;
+    z-index: 100;
+    background-image : url('images/loading.gif');
+    background-color:#ffffff;
+    opacity : 0.6;
+    background-repeat : no-repeat;
+    background-position : center;
+    left : 0;
+    bottom : 0;
+    right : 0;
+    top : 0;
+}

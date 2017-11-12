@@ -83,7 +83,9 @@ define(['knockout', 'appState'],
 
     Entity.error = error;
 
-    Entity.list = function(path, andThen) {
+    Entity.list = function(path, showLoading, andThen) {
+      if (showLoading) appState.loading(true);
+
       $.ajax({
         url: appState.apiUrl + path,
         type: 'GET',
@@ -91,16 +93,20 @@ define(['knockout', 'appState'],
         headers: appState.user.oauth.getHeader(),
 
         success: function(response) {
-          var data = JSON.parse(response);          
+          var data = JSON.parse(response);
+          appState.loading(false);          
           andThen.call(null, data.items, null);
         }
       }).fail(function(jqXhr) {
+        appState.loading(false);
         error(jqXhr, andThen);
       });
     };
 
-    Entity.get = function(path, andThen) {
+    Entity.get = function(path, showLoading, andThen) {
       var url = appState.apiUrl + path;
+
+      if (showLoading) appState.loading(true);
 
       $.ajax({
         url: url,
@@ -109,16 +115,19 @@ define(['knockout', 'appState'],
         contentType: 'application/json',
         headers: appState.user.oauth.getHeader(),
 
-        success: function(data) {          
+        success: function(data) {
+          appState.loading(false);          
           andThen.call(null, data.item, null);
         }
       }).fail(function(jqXhr) {
+        appState.loading(false);
         error(jqXhr, andThen);
       });
     };
 
     Entity.save = function(data, path, andThen) {
       var url = appState.apiUrl + path + (data.id ? data.id : '');
+      appState.loading(true);
 
       $.ajax({
         url: url,
@@ -129,15 +138,18 @@ define(['knockout', 'appState'],
         headers: appState.user.oauth.getHeader(),
 
         success: function(result) {          
+          appState.loading(false);
           andThen.call(null, result.item, null);
         }
       }).fail(function(jqXhr) {
-        error(jqXhr, andThen);
+        appState.loading(false);
+        error(jqXhr, andThen);        
       });
     };
 
     Entity.remove = function(path, andThen) {
       var url = appState.apiUrl + path;
+      appState.loading(true);
 
       $.ajax({
         url: url,
@@ -146,10 +158,12 @@ define(['knockout', 'appState'],
         contentType: 'application/json',
         headers: appState.user.oauth.getHeader(),
 
-        success: function(data) {          
+        success: function(data) {
+          appState.loading(false);          
           andThen.call(null, data.item, null);              
         }
       }).fail(function(jqXhr) {
+        appState.loading(false);
         error(jqXhr, andThen);
       });
     };

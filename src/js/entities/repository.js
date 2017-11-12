@@ -111,12 +111,12 @@ define(['knockout', 'entities/entity'],
       return obj;
     };
 
-    Repository.list = function(andThen) {
-      Entity.list('/repositories?sort=name|ASC', andThen);
+    Repository.list = function(showLoading, andThen) {
+      Entity.list('/repositories?sort=name|ASC', showLoading, andThen);
     };
 
-    Repository.get = function(id, andThen) {
-      Entity.get('/repositories/' + id, andThen);
+    Repository.get = function(id, showLoading, andThen) {
+      Entity.get('/repositories/' + id, showLoading, andThen);
     };
 
     Repository.save = function(data, andThen) {

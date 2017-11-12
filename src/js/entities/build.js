@@ -72,12 +72,12 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       return obj;
     };
 
-    Build.list = function(andThen) {
-      Entity.list('/builds?sort=utcLastModifiedDate|DESC|instant', andThen);
+    Build.list = function(showLoading, andThen) {
+      Entity.list('/builds?sort=utcLastModifiedDate|DESC|instant', showLoading, andThen);
     };
 
-    Build.get = function(id, andThen) {
-      Entity.get(BUILDS_PATH + id, andThen);
+    Build.get = function(id, showLoading, andThen) {
+      Entity.get(BUILDS_PATH + id, showLoading, andThen);
     };
 
     Build.remove = function(id, andThen) {
@@ -86,6 +86,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
 
     Build.abort = function(id, andThen) {
       var url = appState.apiUrl + BUILDS_PATH + id + '/abort';
+      appState.loading(true);
 
       $.ajax({
         url: url,
@@ -93,10 +94,12 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
         headers: appState.user.oauth.getHeader(),
         dataType: 'json',
         contentType: 'application/json',
-        success: function(result) {          
+        success: function(result) {
+          appState.loading(false);          
           andThen.call(null, result.item, null);
         }
       }).fail(function(jqXhr) {
+        appState.loading(false);
         Entity.error(jqXhr, andThen);
       });
     };

@@ -2,6 +2,7 @@
   Copyright (c) 2015, 2017, Oracle and/or its affiliates.
   The Universal Permissive License (UPL), Version 1.0
 */
+'use strict';
 /**
  * # oraclejet-build.js
  * This script allows users to configure and customize the grunt build tasks. 
@@ -14,11 +15,11 @@
  *   requireJs
  *   sass 
  * To configure a task, uncomment the corresponding sections below, and pass in your configurations. 
- * Any options will be merged with default configuration found in node_modules/oraclejet-tooling/lib/defaultconfig.js
+ * Any options will be merged with default configuration found in node_modules/@oracle/oraclejet-tooling/lib/defaultconfig.js
  * Any fileList options will replace the corresponding option defined by the default configuration in its entirety - ie. arrays are not merged.
  */
 
-module.exports = function (grunt) {
+module.exports = function () {
   return {
 
 /**
@@ -34,18 +35,18 @@ module.exports = function (grunt) {
  * Example: {cwd: 'app', src: ['**', '!test.js'], dest: 'staging',  rename: function (dest, file) {return renamed path}}
  */
     copyCustomLibsToStaging: {
-     fileList: [
-      {
-        cwd:'node_modules/ace-builds/',
-        src: ['**'],
-        dest: 'web/js/libs/ace'
-      },
-      {
-        cwd:'node_modules/moment/',
-        src: ['min/**'],
-        dest: 'web/js/libs/moment'
-      }
-     ]
+      fileList: [
+       {
+         cwd:'node_modules/ace-builds/',
+         src: ['**'],
+         dest: 'web/js/libs/ace'
+       },
+       {
+         cwd:'node_modules/moment/',
+         src: ['min/**'],
+         dest: 'web/js/libs/moment'
+       }
+      ]
     },
 
 /**

@@ -3,12 +3,13 @@ var phase1 = new Phase()
                  .env({
                      'MESSAGE': 'Hello from buildpal!'
                  })
-                 .conf(function(containerArgs) {
-                     containerArgs
-                         .image('alpine:3.6');
+                 .conf(function(agent) {
+                     agent
+                         .image('alpine:3.6')
+                         .user('root');
                  })
-                 .main(function(container) {
-                     container
+                 .exec(function(agent) {
+                     agent
                          .sh('echo $MESSAGE');
                  });
 

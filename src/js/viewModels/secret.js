@@ -40,18 +40,14 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       };
 
       self.load = function(id) {
-        return new Promise(function (resolve, reject) {
-          Secret.get(id, function(item, errors) {
-            if (item) {
-              self.title('Edit secret');
-              self.currentSecret.fromObject(item);
-              resolve(true);
+        Secret.get(id, true, function(item, errors) {
+          if (item) {
+            self.title('Edit secret');
+            self.currentSecret.fromObject(item);
 
-            } else {
-              appState.growlFail('Unable to load secret: ' + id);
-              resolve(false);
-            }          
-          });
+          } else {
+            appState.growlFail('Unable to load secret: ' + id);
+          }          
         });        
       };
                         
@@ -71,7 +67,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
             state = new oj.RouterState(id, {
               value: id,
               canEnter: function () {
-                return self.load(id);
+                self.load(id);
+                return true;
               }
             });
           }

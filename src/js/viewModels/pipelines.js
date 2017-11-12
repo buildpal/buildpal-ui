@@ -69,10 +69,11 @@ function(oj, ko, $, appState, Pipeline, moment) {
     };
 
     self.onDeleteConfirm = function() {
+      $('#dlgPipeline_Delete').ojDialog('close');
+      
       Pipeline.remove(self.currentPipeline.id(), function(item, errors) {
         if (item) {
           self.load();
-          $('#dlgPipeline_Delete').ojDialog('close');
           appState.growlSuccess('Pipeline deleted: ' + self.currentPipeline.name());
 
         } else {
@@ -104,7 +105,7 @@ function(oj, ko, $, appState, Pipeline, moment) {
     };
 
     self.load = function() {
-      Pipeline.list(function(items, errors) {
+      Pipeline.list(true, function(items, errors) {
         if (items) {
           self.dsPipelines.reset(items);
 
@@ -120,6 +121,7 @@ function(oj, ko, $, appState, Pipeline, moment) {
         return;
       }
       
+      self.dsPipelines.reset([]);
       self.load();
     };      
   }
