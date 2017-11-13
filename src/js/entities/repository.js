@@ -22,8 +22,6 @@ define(['knockout', 'entities/entity'],
     Repository.prototype.constructor = Repository;
 
     Repository.prototype.fromObject = function(repo) {
-      Entity.prototype.fromObject.call(this, repo);
-
       this.secretID([]);
 
       if (repo) {
@@ -71,6 +69,9 @@ define(['knockout', 'entities/entity'],
         this.shelvedList('${data.SHELVED_LIST}');
         this.children = [];
       }
+
+      // Do this at the end, so that type observers are notified after other fields are filled.
+      Entity.prototype.fromObject.call(this, repo);
     };
 
     Repository.prototype.toObject = function() {
