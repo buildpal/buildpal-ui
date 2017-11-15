@@ -26,13 +26,16 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.showLogs = function(phase) {
         self.logs('Loading...');
 
-        var tail = (phase.status == 'DONE' || phase.status == 'FAILED') ? 'all' : '50';
-
-        Build.logs(self.currentBuild().id(), phase.containerID, tail, function(logs, errors) {
-          self.logs(errors ? errors : logs);
-        });
-
-        $('#dlgLogs').ojDialog('open');
+        if (phase.status == 'DONE' || phase.status == 'FAILED') {
+          window.open(Build.logsUrl(self.currentBuild().id(), phase.containerID, 'all'));
+          
+        } else {
+          Build.logs(self.currentBuild().id(), phase.containerID, 80, function(logs, errors) {
+            self.logs(errors ? errors : logs);
+          });
+  
+          $('#dlgLogs').ojDialog('open');
+        }        
       }
 
       self.onClose = function() {

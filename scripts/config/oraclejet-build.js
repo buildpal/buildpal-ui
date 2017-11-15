@@ -38,8 +38,8 @@ module.exports = function () {
       fileList: [
        {
          cwd:'node_modules/ace-builds/',
-         src: ['**'],
-         dest: 'web/js/libs/ace'
+         src: ['src-min-noconflict/ace.js', 'src-min-noconflict/mode-javascript.js', 'src-min-noconflict/worker-javascript.js'],
+         dest: 'web/js/libs/ace/'
        },
        {
          cwd:'node_modules/moment/',

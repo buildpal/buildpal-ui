@@ -104,9 +104,12 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       });
     };
 
+    Build.logsUrl = function(id, containerID, tail) {
+      return appState.apiUrl + '/logs/' + id + '?containerID=' + containerID + '&tail=' + tail;
+    };
+
     Build.logs = function(id, containerID, tail, andThen) {
-      var url = appState.apiUrl + BUILDS_PATH + id +
-        '/logs?containerID=' + containerID + '&tail=' + tail;
+      var url = Build.logsUrl(id, containerID, tail);
 
       $.ajax({
         url: url,

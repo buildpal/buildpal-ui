@@ -13,5 +13,5 @@
   "customElements": "libs/webcomponents/custom-elements.min",
   "proj4": "libs/proj4js/dist/proj4",
   "css": "libs/require-css/css.min",
-  "ace": "libs/ace/src-min"
+  "ace": "libs/ace/src-min-noconflict"
 }

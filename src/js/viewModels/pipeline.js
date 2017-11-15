@@ -2,7 +2,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         'entities/pipeline', 'entities/repository', 'entities/data-item',
         'ace/ace', 'ojs/ojlistview', 'ojs/ojdialog', 'ojs/ojarraytabledatasource',
         'ojs/ojinputtext', 'ojs/ojselectcombobox', 'ojs/ojknockout-validation'],
-  function(oj, ko, $, appState, Pipeline, Repository, DataItem, ace) {
+  function(oj, ko, $, appState, Pipeline, Repository, DataItem) {
     var EMPTY = { id: '0', label: '-- None --' };
   
     function EditPipelineViewModel() {

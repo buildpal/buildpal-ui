@@ -23,7 +23,7 @@ requirejs.config(
     'customElements': 'libs/webcomponents/custom-elements.min',
     'proj4': 'libs/proj4js/dist/proj4-src',
     'css': 'libs/require-css/css',
-    'ace': 'libs/ace/src'
+    'ace': 'libs/ace/src-min-noconflict'
   }
   //endinjector
   ,
