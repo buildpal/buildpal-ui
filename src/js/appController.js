@@ -22,8 +22,12 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
           exit: function () {
             var childRouter = self.router.currentState().value;
             childRouter.dispose();
+
+            appState.hideNav(false);
           },
           enter: function () {
+            appState.hideNav(true);
+
             var childRouter = self.router.createChildRouter('id');
             childRouter.defaultStateId = '';
             self.router.currentState().value = childRouter;
@@ -40,6 +44,8 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
             var childRouter = self.router.createChildRouter('id');
             childRouter.defaultStateId = '';
             self.router.currentState().value = childRouter;
+
+            appState.hideNav(false);
           }
         },
         'repositories': { label: 'Repositories' },
@@ -53,6 +59,8 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
             var childRouter = self.router.createChildRouter('id');
             childRouter.defaultStateId = '';
             self.router.currentState().value = childRouter;
+
+            appState.hideNav(false);
           }
         },
         'settings': { label: 'Settings' },
@@ -66,6 +74,8 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
             var childRouter = self.router.createChildRouter('id');
             childRouter.defaultStateId = '';
             self.router.currentState().value = childRouter;
+
+            appState.hideNav(false);
           }
         }
       });
@@ -99,9 +109,6 @@ define(['ojs/ojcore', 'knockout', 'appState', 'ojs/ojrouter', 'ojs/ojknockout', 
       }
       // Add a close listener so we can move focus back to the toggle button when the drawer closes
       $("#navDrawer").on("ojclose", function() { $('#drawerToggleButton').focus(); });
-
-      // User Info used in Global Navigation area
-      self.userLogin = ko.observable("john.hancock@oracle.com");
 
      }
 

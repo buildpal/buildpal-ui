@@ -11,14 +11,19 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.dsBuilds = new oj.ArrayTableDataSource([], { idAttribute: 'id' });
       self.currentBuild = new Build();
 
-      self.getRepoDisplayName = function(repository) {
-        var displayName = repository.type;
+      self.getRepoTypeDisplayName = function(repository) {
+        switch(repository.type) {
+          case 'GIT':
+          case 'MULTI_GIT':
+            return 'Git';
 
-        if (repository.branch && repository.branch.indexOf('${data') === -1) {
-          displayName += ', ' + repository.branch;
+          case 'P4':
+          case 'MULTI_P4':
+            return 'Perforce';
+            
+          default:
+            return 'File System';  
         }
-        
-        return displayName;
       };
 
       self.onView = function(build) {

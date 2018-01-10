@@ -70,6 +70,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'ojs/ojmodel'],
 
       self.user = new User();
 
+      self.hideNav = ko.observable(false);
+
       self.growl = {
         linkData: null,
         linkClick: null,

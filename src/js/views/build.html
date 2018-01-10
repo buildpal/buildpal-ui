@@ -13,7 +13,7 @@
       <div class="oj-flex-item data-holder">
         <div class="oj-flex row oj-margin">
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
-            <span class="secondary">Name: </span>  
+            <span class="secondary">Pipeline: </span>  
             <span data-bind="text: $data.name"></span>                          
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
@@ -27,8 +27,8 @@
             <span data-bind="text: $data.repoName"></span>
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
-            <span class="secondary">Branch: </span>                
-            <span data-bind="text: $parent.getBranchDisplayName($data)"></span>  
+            <span class="secondary">Type: </span>                
+            <span data-bind="text: $data.repoType"></span>  
           </div>
           <div class="oj-lg-4 oj-md-4 oj-sm-12">
             
@@ -71,7 +71,7 @@
       <div class="icon-holder" data-bind="attr: { title: $data['status'] }">
         <span class="oj-sm-align-self-center buildpal-icon-font-24"
               data-bind="css: 'icon-color-' + status, visible: status != 'IN_FLIGHT'"></span>
-        <div class="oj-sm-align-self-center" style="height: 16px; width: 16px;" 
+        <div class="oj-sm-align-self-center" style="height: 16px; width: 16px; margin-left: 14px;" 
              data-bind="ojComponent: { component: 'ojProgressbar', 
                                        type: 'circle',
                                        value: (status == 'IN_FLIGHT' ? -1 : 0) 
@@ -94,7 +94,8 @@
                                initialVisibility: 'hide',
                                rootAttributes: { style: 'width: 80vw; height: 80vh '}
                              }">
-  <div class="oj-dialog-body">
+  <div class="oj-dialog-body phase-logs-dialog">
+    <oj-progress value="-1" data-bind="visible: currentPhase.status() == 'IN_FLIGHT'"></oj-progress>
     <pre data-bind="text: logs"></pre>      
   </div>
   <div class="oj-dialog-footer">

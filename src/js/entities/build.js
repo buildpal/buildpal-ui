@@ -13,7 +13,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       this.endTime = null;
       this.duration = null;
       this.repoName = null;
-      this.repoBranch = null;      
+      this.repoType = null;      
     }
 
     Build.prototype = Object.create(Entity.prototype);
@@ -25,6 +25,9 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       if (build) {
         this.status = build.status;
         this.pipelineID = build.pipelineID;
+
+        this.repoName = build.repository.name;
+        this.repoType = Build.getRepoTypeDisplayName(build.repository);
 
         this.data = {};
         for (var key in build.data) {
@@ -51,9 +54,6 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
           this.duration = duration;
         }
 
-        this.repoName = build.repository.type;
-        this.repoBranch = build.repository.branch || 'N/A';
-
       } else {
         this.status = null;
         this.pipelineID = null;
@@ -62,7 +62,7 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
         this.endTime = null;
         this.duration = null;
         this.repoName = null;
-        this.repoBranch = null;
+        this.repoType = null;
       }
     };
 
@@ -70,6 +70,23 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       var obj = Entity.prototype.toObject.call(this);
       
       return obj;
+    };
+
+    Build.getRepoTypeDisplayName = function(repository) {
+      if (!repository) return 'N/A';
+
+      switch(repository.type) {
+        case 'GIT':
+        case 'MULTI_GIT':
+          return 'Git';
+
+        case 'P4':
+        case 'MULTI_P4':
+          return 'Perforce';
+          
+        default:
+          return 'File System';  
+      }
     };
 
     Build.list = function(showLoading, andThen) {
@@ -105,7 +122,8 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
     };
 
     Build.logsUrl = function(id, containerID, tail) {
-      return appState.apiUrl + '/logs/' + id + '?containerID=' + containerID + '&tail=' + tail;
+      var url = appState.apiUrl + BUILDS_PATH + id + '/logs';
+      return url + '?containerID=' + containerID + '&tail=' + tail;
     };
 
     Build.logs = function(id, containerID, tail, andThen) {

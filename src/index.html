@@ -67,7 +67,8 @@
               </oj-toolbar>
             </div>
           </div>
-          <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar">
+          <div role="navigation" class="oj-web-applayout-max-width oj-web-applayout-navbar"
+               data-bind="css: { hide: appState.hideNav() }">
             <oj-navigation-list class="oj-sm-only-hide oj-md-condense oj-md-justify-content-flex-end"
                                 data="[[navDataSource]]"
                                 edge="top"
@@ -80,7 +81,7 @@
         </div>
         <footer class="oj-web-applayout-footer" role="contentinfo">
           <div class="oj-web-applayout-footer-item oj-web-applayout-max-width oj-text-secondary-color oj-text-sm">
-            Copyright © 2017 Buildpal.
+            Copyright © 2018 Buildpal.
           </div>
         </footer>
       </div>
