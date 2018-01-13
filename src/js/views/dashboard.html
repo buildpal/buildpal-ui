@@ -1,4 +1,14 @@
-<div class="oj-hybrid-padding" style="display: none;" data-bind="visible: showBuilds()">  
+<div class="oj-hybrid-padding" style="display: none;" data-bind="visible: showBuilds()"> 
+  
+  <div class="oj-flex oj-sm-flex-direction-column">
+    <div class="oj-sm-align-self-flex-end oj-flex-item list-actions">
+      <oj-select-one id="ddlUserFilter" value="{{userFilter}}" style="max-width:20em">
+        <oj-option value="{{appState.user.id}}">My builds</oj-option>
+        <oj-option value="all">All builds</oj-option>        
+      </oj-select-one>
+    </div>
+  </div>
+
   <ul id="ulBuilds" data-bind="ojComponent: { component: 'ojListView',
                                                 data: dsBuilds,
                                                 item: { template: 'build_template' },

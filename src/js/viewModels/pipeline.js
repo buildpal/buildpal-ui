@@ -22,6 +22,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.editor = null;
       self.currentPipeline = null;
 
+      self.scriptTemplateID = ko.observable('1');
+
       self.validate = function() {        
         return $('#txtName').ojInputText('validate');
       };
@@ -144,7 +146,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
 
             Pipeline.downloadJS(self.currentPipeline.id(), function(item, errors) {
               if (item) {
+                self.scriptTemplateID('2');
                 self.editor.getSession().setValue(item.js);
+              } else {
+                self.scriptTemplateID('1');
               }
             });
 
@@ -153,6 +158,16 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
           }          
         });        
       };
+
+      self.showScript = function() {
+        if (self.scriptTemplateID() == '0') {
+          require(['text!views/pipelines/sample.txt'], function(js) {
+            self.editor.getSession().setValue(js);
+          });
+        } else if (self.scriptTemplateID() == '1') {
+          self.editor.getSession().setValue('');
+        }
+      }
                         
       self.handleActivated = function(info) {
         if (!appState.user.isLoggedIn()) {
@@ -181,6 +196,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         self.currentPipeline = new Pipeline();
         self.dsData.reset([]);
 
+        self.scriptTemplateID.subscribe(function(newValue) {
+          self.showScript();
+        });
+
         return oj.Router.sync();                         
       }; 
 
@@ -196,10 +215,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
           self.title('Add pipeline');
           self.currentPipeline.fromObject();
           self.loadRepos();
-
-          require(['text!views/pipelines/sample.txt'], function(js) {
-            self.editor.getSession().setValue(js);
-          });
+          self.scriptTemplateID('0');
         }       
       };
     }

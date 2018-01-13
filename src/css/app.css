@@ -273,12 +273,17 @@ html[dir="rtl"] .buildpal-logo-icon {
     border: none;
 }
 
-.phase-logs-dialog {
+.phase-logs-footer {
     padding: 0;
+    display: block;
 }
 
-.phase-logs-dialog pre {
-    padding: 0.85714rem;
+.phase-logs-footer bar {
+    width: 100%;
+}
+
+.phase-logs-footer button {
+    margin: 0.85714rem;
 }
 
 .data-holder {
@@ -379,6 +384,10 @@ html[dir="rtl"] .buildpal-logo-icon {
 
 #pipelineEditor {
     height: 350px;
+}
+
+#pipelineEditor.noscript {
+    display: none;
 }
 
 .oj-popup-content a,

@@ -89,8 +89,10 @@ define(['knockout', 'appState', 'entities/entity', 'moment'],
       }
     };
 
-    Build.list = function(showLoading, andThen) {
-      Entity.list('/builds?sort=utcLastModifiedDate|DESC|instant', showLoading, andThen);
+    Build.list = function(showLoading, userFilter, andThen) {
+      var q = (userFilter && userFilter != 'all') ? ('&q=createdBy eq "' + userFilter + '"') : '';
+
+      Entity.list('/builds?sort=utcLastModifiedDate|DESC|instant' + q, showLoading, andThen);
     };
 
     Build.get = function(id, showLoading, andThen) {

@@ -62,10 +62,10 @@
   </div>  
 </div>
 
-  <div class="oj-dialog-footer">
+  <!-- <div class="oj-dialog-footer">
     <button data-bind="click: onSave, ojComponent: { component: 'ojButton', label: 'Save' }"> </button>
     <button data-bind="click: onCancel, ojComponent: { component: 'ojButton', label: 'Cancel' }"> </button>  
-  </div>
+  </div> -->
 </div>
 
 <div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;">
@@ -84,14 +84,22 @@
                                           }">
   </ul>
 
-  <div class="oj-dialog-footer" data-bind="visible: showDataSave()">
+  <!-- <div class="oj-dialog-footer" data-bind="visible: showDataSave()">
     <button data-bind=" click: onSave, ojComponent: {component: 'ojButton', label: 'Save'}"> </button>
     <button data-bind="click: onCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
-  </div>
+  </div> -->
 </div>
 
 <div class="editor oj-panel oj-panel-shadow-md">
-  <div id="pipelineEditor">
+  <div class="oj-dialog-footer">
+    <oj-select-one id="ddlScriptTemplate" value="{{scriptTemplateID}}" style="width: 250px;">
+      <oj-option value="0">One phase template</oj-option>
+      <oj-option value="1">Scan repository for script</oj-option>      
+      <oj-option value="2" disabled>Custom template</oj-option>        
+    </oj-select-one>
+  </div>
+
+  <div id="pipelineEditor" data-bind="css: { noscript: scriptTemplateID() == '1' }">
   </div>
 
   <div class="oj-dialog-footer">

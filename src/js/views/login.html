@@ -20,6 +20,11 @@
                                             value: userID,
                                             required: true,
                                             invalidComponentTracker: tracker,
+                                            displayOptions: {
+                                              converterHint: 'none',
+                                              validatorHint: 'none',
+                                              title: 'none'
+                                            },
                                             translations: {
                                               'required': {
                                                 messageSummary: 'Invalid user ID',  
@@ -27,11 +32,10 @@
                                               }
                                             },
                                             validators: [{
-                                              type: 'regExp', 
+                                              type: 'length', 
                                               options: {
-                                                pattern: '[a-zA-Z0-9]{3,}', 
-                                                messageSummary: 'Invalid user ID',
-                                                messageDetail: 'User ID should be 3 or more characters long.'
+                                                min: 3, 
+                                                messageDetail: { tooShort: ' ' }
                                               }
                                             }] }">
           </div>
@@ -44,6 +48,11 @@
                                             value: password,
                                             required: true,
                                             invalidComponentTracker: tracker,
+                                            displayOptions: {
+                                              converterHint: 'none',
+                                              validatorHint: 'none',
+                                              title: 'none'
+                                            },
                                             translations: {
                                               'required': {
                                                 messageSummary: 'Invalid password',  
@@ -51,11 +60,10 @@
                                               }
                                             },
                                             validators: [{
-                                              type: 'regExp', 
+                                              type: 'length', 
                                               options: {
-                                                pattern: '[a-zA-Z0-9]{3,}', 
-                                                messageSummary: 'Invalid password',
-                                                messageDetail: 'Password should be 3 or more characters long.'
+                                                min: 3, 
+                                                messageDetail: { tooShort: ' ' }
                                               }
                                             }] }">
           </div>

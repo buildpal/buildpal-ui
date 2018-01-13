@@ -1,10 +1,13 @@
 define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         'moment', 'entities/build', 'entities/pipeline',
-        'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojarraytabledatasource'],
+        'ojs/ojdialog', 'ojs/ojlistview', 'ojs/ojselectcombobox', 'ojs/ojarraytabledatasource'],
   function(oj, ko, $, appState, moment, Build, Pipeline) {
   
     function DashboardViewModel() {
       var self = this;
+
+      self.appState = appState;
+      self.userFilter = ko.observable();
 
       self.moment = moment;
       self.showBuilds = ko.observable(false);
@@ -80,7 +83,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       };
 
       self.load = function() {
-        Build.list(true, function(items, errors) {
+        Build.list(true, self.userFilter(), function(items, errors) {
           if (errors && errors.length > 0) {
             appState.growlFail('Unable to load builds.');                            
           } else {
@@ -97,7 +100,11 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
 
         self.showBuilds(true);
         self.dsBuilds.reset([]);
-        self.load();        
+        self.load();
+        
+        self.userFilter.subscribe(function(newValue) {
+          self.load();
+        });
       };            
     }
 

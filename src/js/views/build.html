@@ -94,11 +94,13 @@
                                initialVisibility: 'hide',
                                rootAttributes: { style: 'width: 80vw; height: 80vh '}
                              }">
-  <div class="oj-dialog-body phase-logs-dialog">
-    <oj-progress value="-1" data-bind="visible: currentPhase.status() == 'IN_FLIGHT'"></oj-progress>
+  <div class="oj-dialog-body">
     <pre data-bind="text: logs"></pre>      
   </div>
-  <div class="oj-dialog-footer">
-   <button data-bind="click: onClose, ojComponent: {component: 'ojButton', label: 'Close'}"> </button>
+  <div class="oj-dialog-footer phase-logs-footer">
+    <div class="pb">
+      <oj-progress value="-1" data-bind="visible: currentPhase.status() == 'IN_FLIGHT'"></oj-progress>
+    </div>
+    <button data-bind="click: onClose, ojComponent: {component: 'ojButton', label: 'Close'}"> </button>
   </div>
 </div>
