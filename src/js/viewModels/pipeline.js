@@ -24,6 +24,10 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
 
       self.scriptTemplateID = ko.observable('1');
 
+      self.scriptTemplateID.subscribe(function(newValue) {        
+        self.showScript();
+      });
+
       self.validate = function() {        
         return $('#txtName').ojInputText('validate');
       };
@@ -162,7 +166,7 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
       self.showScript = function() {
         if (self.scriptTemplateID() == '0') {
           require(['text!views/pipelines/sample.txt'], function(js) {
-            self.editor.getSession().setValue(js);
+            self.editor.getSession().setValue(js);            
           });
         } else if (self.scriptTemplateID() == '1') {
           self.editor.getSession().setValue('');
@@ -196,10 +200,6 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         self.currentPipeline = new Pipeline();
         self.dsData.reset([]);
 
-        self.scriptTemplateID.subscribe(function(newValue) {
-          self.showScript();
-        });
-
         return oj.Router.sync();                         
       }; 
 
@@ -207,6 +207,8 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         self.editor = ace.edit('pipelineEditor');        
         self.editor.session.setMode('ace/mode/javascript');
         self.editor.$blockScrolling = Infinity;
+
+        self.scriptTemplateID(null);
 
         if (self.router.currentValue()) {
           self.load(self.router.currentValue());
