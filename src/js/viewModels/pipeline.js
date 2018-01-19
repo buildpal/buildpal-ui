@@ -28,6 +28,24 @@ define(['ojs/ojcore', 'knockout', 'jquery', 'appState',
         self.showScript();
       });
 
+      self.dataItemIDChanging = function(vm, event) {
+        var dataItem = self.currentData();
+        var newID = event.currentTarget.value;
+        
+        if (newID && !dataItem.name()) {
+          $('#txtDataName').val(newID);
+        }
+      };
+
+      self.dataItemIDChanged = function(vm, event) {
+        var dataItem = self.currentData();
+        var newID = event.currentTarget.value;
+        
+        if (newID && !dataItem.name()) {
+          dataItem.name(newID);
+        }
+      };
+
       self.validate = function() {        
         return $('#txtName').ojInputText('validate');
       };

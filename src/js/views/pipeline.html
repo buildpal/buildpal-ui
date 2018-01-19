@@ -62,10 +62,6 @@
   </div>  
 </div>
 
-  <!-- <div class="oj-dialog-footer">
-    <button data-bind="click: onSave, ojComponent: { component: 'ojButton', label: 'Save' }"> </button>
-    <button data-bind="click: onCancel, ojComponent: { component: 'ojButton', label: 'Cancel' }"> </button>  
-  </div> -->
 </div>
 
 <div class="oj-panel oj-panel-shadow-md" style="margin-top: 16px;">
@@ -84,10 +80,6 @@
                                           }">
   </ul>
 
-  <!-- <div class="oj-dialog-footer" data-bind="visible: showDataSave()">
-    <button data-bind=" click: onSave, ojComponent: {component: 'ojButton', label: 'Save'}"> </button>
-    <button data-bind="click: onCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
-  </div> -->
 </div>
 
 <div class="editor oj-panel oj-panel-shadow-md">
@@ -157,7 +149,7 @@
                                                         messageDetail: 'ID should be all uppercase, alphanumeric.'
                                                       }
                                                     }
-                                                  }">
+                                                  }, event: { 'keyup': dataItemIDChanging, 'change': dataItemIDChanged }">
                 </div>
               </div>
               <div class="oj-flex">  
