@@ -1,23 +1,79 @@
-<div class="oj-hybrid-padding">
+<div class="oj-hybrid-padding" style="border: 1px solid #efefef;">
 
-<div class="oj-flex oj-sm-flex-direction-column">
-  <div class="oj-sm-align-self-flex-end oj-flex-item list-actions">
-    <button data-bind="click: onAddSecret, ojComponent: { component: 'ojButton',
-                                                    label: 'Add New Secret' }">
-    </button>
+<div class="oj-flex">
+  <div id="settingsTab" class="oj-flex-item oj-lg-2 oj-md-3 oj-sm-12" style="border-right: 1px solid #0572ce;">
+    <oj-tab-bar drill-mode="none" display="all" edge="start" selection="{{settingsType}}">
+      <ul>
+        <li id="secrets">
+          <a href="#">
+            Secrets
+          </a>
+        </li>
+        <li id="nodeAffinity" data-bind="visible: appState.user.id() == 'admin'">
+          <a href="#">
+            User-Node Affinity
+          </a>
+        </li>
+        <li id="workspace">
+          <a href="#">
+            My Workspace
+          </a>
+        </li>        
+      </ul>
+    </oj-tab-bar>
+  </div>
+
+  <div class="oj-flex-item oj-lg-10 oj-md-9 oj-sm-12">
+    <div data-bind="visible: settingsType() == 'secrets'">
+      <div class="oj-flex oj-sm-flex-direction-column">
+        <div class="oj-sm-align-self-flex-end oj-flex-item list-actions">
+          <button data-bind="click: onAddSecret, ojComponent: { component: 'ojButton',
+                                                          label: 'Add New Secret' }">
+          </button>
+        </div>
+      </div>
+        
+      <ul id="ulSecrets" data-bind="ojComponent: { component: 'ojListView',
+                                                      data: dsSecrets,
+                                                      item: { template: 'secret_template' },
+                                                      selectionMode: 'none',
+                                                      translations: {
+                                                        msgNoData: 'No secrets found.'
+                                                      } 
+                                                    }">
+      </ul>
+    </div>
+
+    <div data-bind="visible: settingsType() == 'nodeAffinity'">
+      <ul id="ulNodeAffinity" data-bind="ojComponent: { component: 'ojListView',
+                                                      data: dsNodeAffinity,
+                                                      item: { template: 'node_affinity_template' },
+                                                      selectionMode: 'none',
+                                                      translations: {
+                                                        msgNoData: 'No user-node affinities found.'
+                                                      } 
+                                                    }">
+      </ul>
+    </div>
+
+    <div data-bind="visible: settingsType() == 'workspace'">
+      <div class="oj-form-layout" style="padding: 16px;">
+        <div class="oj-form">
+          <div class="oj-flex">  
+            <div class="oj-flex-item">
+              <oj-label show-required for="txtUserIDForWorkspace">User ID</oj-label>
+              <oj-input-text id="txtUserIDForWorkspace" disabled required value="{{appState.user.id}}"></oj-input-text>
+            </div>
+          </div>                    
+        </div>
+      </div>
+      <div class="oj-dialog-footer">
+        <button data-bind="click: onDeleteUserWorkspaces, ojComponent: { component: 'ojButton', label: 'Delete' }"> </button>        
+      </div>
+    </div>
   </div>
 </div>
-
-<ul id="ulSecrets" data-bind="ojComponent: { component: 'ojListView',
-                                               data: dsSecrets,
-                                               item: { template: 'secret_template' },
-                                               selectionMode: 'none',
-                                               translations: {
-                                                 msgNoData: 'No secrets found.'
-                                               } 
-                                             }">
-</ul>
-
+    
 </div>
 
 <script type="text/html" id="secret_template">
@@ -50,6 +106,22 @@
   </li>
 </script>
 
+<script type="text/html" id="node_affinity_template">
+  <li class="oj-panel-shadow-sm buildpal-list-item">
+    <div class="oj-flex">
+      <div class="oj-flex-item">
+        <span class="name" data-bind="text: id"></span>        
+      </div>
+      <div class="oj-flex-item">
+          <span class="secondary" data-bind="text: nodes"></span>        
+        </div>
+      <div class="actions oj-sm-align-self-center">
+        <a href="#" data-bind="click: $parent.onDeleteAffinity"><i class="material-icons action">delete</i></a>
+      </div>  
+    </div>        
+  </li>
+</script>
+
 <div id="dlgSecret_Delete" style="display:none" title="Delete Secret"
      data-bind="ojComponent: { component: 'ojDialog',
                                initialVisibility: 'hide',
@@ -62,5 +134,34 @@
   <div class="oj-dialog-footer">
    <button data-bind=" click: onDeleteSecretConfirm, ojComponent: {component: 'ojButton', label: 'Delete'}"> </button>
    <button data-bind="click: onDeleteSecretCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
+  </div>
+</div>
+
+<div id="dlgAffinity_Delete" style="display:none" title="Clear User Affinity"
+     data-bind="ojComponent: { component: 'ojDialog',
+                               initialVisibility: 'hide',
+                               rootAttributes: { style: 'width: 80vw; '}
+                             }">
+  <div class="oj-dialog-body">
+    <span>Are you sure you want to clear affinity for user </span>  
+    <span style="font-weight: 700; font-style: italic;" data-bind="text: currentUser.id() + '?'"></span>
+  </div>
+  <div class="oj-dialog-footer">
+   <button data-bind=" click: onDeleteAffinityConfirm, ojComponent: {component: 'ojButton', label: 'Delete'}"> </button>
+   <button data-bind="click: onDeleteAffinityCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
+  </div>
+</div>
+
+<div id="dlgUserWorkspaces_Delete" style="display:none" title="Delete My Workspaces"
+     data-bind="ojComponent: { component: 'ojDialog',
+                               initialVisibility: 'hide',
+                               rootAttributes: { style: 'width: 80vw; '}
+                             }">
+  <div class="oj-dialog-body">
+    <span>Are you sure you want to delete your workspaces?</span>      
+  </div>
+  <div class="oj-dialog-footer">
+   <button data-bind=" click: onDeleteUserWorkspacesConfirm, ojComponent: {component: 'ojButton', label: 'Delete'}"> </button>
+   <button data-bind="click: onDeleteUserWorkspacesCancel, ojComponent: {component: 'ojButton', label: 'Cancel'}"> </button>
   </div>
 </div>
